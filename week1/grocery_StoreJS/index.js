@@ -11,4 +11,4 @@ var shopperObject = {
         return this.firstName + " " + this.lastName;
     }
 };
-console.log(shopperObject.fullName);
+console.log(shopperObject.fullName());
