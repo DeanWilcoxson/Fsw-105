@@ -14,3 +14,6 @@ if (1 === 1) { console.log("strict"); } else if (1 == "1") { console.log("loose"
 if ((1 <= 2) && (2 === 4)) { console.log("yes"); }
 
 //Gold Medal
+//Ternary Replacement
+5 >= 3 ? $Result = "is greater than" : $Result = "is not greater than";
+console.log($Result);
