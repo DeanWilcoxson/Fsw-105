@@ -7,7 +7,7 @@ if (5 > 3) {
 
 //Number 2: (Write an if statement that prints "is the length" if the length of "cat" is 3)
 console.log("Number 2:");
-if ("cat" === 3) {
+if ("cat".length == 3) {
     console.log("is the length");
 } else console.log("is not the length");
 
@@ -67,7 +67,7 @@ console.log("Preliminary Number 1:");
 console.log($Result);
 
 console.log("Preliminary Number 2:");
-"cat" === 3 ? ($Result = "is the length") : ($Result = "is not the length");
+"cat".length == 3 ? ($Result = "is the length") : ($Result = "is not the length");
 console.log($Result);
 
 console.log("Preliminary Number 3:");
