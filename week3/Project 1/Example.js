@@ -15,7 +15,7 @@ for (var i = 0; i < officeItems.length; i++) {
 console.log(count);
 
 
-
+//Complete the Pause and Practice: JavaScript Loops, Nesting Loops
 /* # Extra Credit: Imagine you have a button that toggles a light on and off.Loop through the following array of numbers and toggle the button the numbers of times
 for each number.The array[2, 3, 2] would toggle the button 7 times.
 The light is off to start with.Log to the console whether or not the light is on at the end.*/
