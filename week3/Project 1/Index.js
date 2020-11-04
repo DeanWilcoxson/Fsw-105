@@ -24,8 +24,9 @@ var peopleWhoWantToSeeMadMaxFuryRoad = [{
         gender: "Female"
     }
 ];
-for (var i = 0; i < peopleWhoWantToSeeMadMaxFuryRoad.length; i++) {
-    if (peopleWhoWantToSeeMadMaxFuryRoad.length.age >= 18) {
+
+for (i = 0; i < peopleWhoWantToSeeMadMaxFuryRoad.length; i++) {
+    if (peopleWhoWantToSeeMadMaxFuryRoad[i].age >= 18) {
         console.log("Old Enough");
     } else {
         console.log("Not Old Enough");
