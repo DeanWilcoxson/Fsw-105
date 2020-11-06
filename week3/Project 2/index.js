@@ -17,8 +17,8 @@ function whichNumberIsLargest(num1, num2, num3) {
 }
 var arrayOfNumbers = whichNumberIsLargest(5, 4, 3);
 
-/*Write a function that accepts one number as a parameter, and returns whether that number is even or odd. (Return the string "even" or "odd");
- */
+/*Write a function that accepts one number as a parameter, and returns whether that number is even or odd. 
+(Return the string "even" or "odd");*/
 function oddOrEven(num1) {
     if (num1 % 2 === 1) {
         console.log("Odd");
@@ -27,5 +27,7 @@ function oddOrEven(num1) {
     }
 }
 var myFavoriteNumber = oddOrEven(10);
-/*Write a function that accepts a string as a parameter. If the length of the string is less than or equal to twenty characters long, return the string concatenated with itself (string + string). If the string is more than twenty characters long, return the first half of the string.
- */
+
+/*Write a function that accepts a string as a parameter. 
+If the length of the string is less than or equal to twenty characters long, return the string concatenated with itself (string + string). 
+If the string is more than twenty characters long, return the first half of the string.*/
