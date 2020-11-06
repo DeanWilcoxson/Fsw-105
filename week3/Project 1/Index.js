@@ -60,3 +60,16 @@ for (i = 0; i < arrayOfNumbers.length; i++) {
         console.log("Even");
     }
 }
+
+/* # Extra Credit: Imagine you have a button that toggles a light on and off.Loop through the following array of numbers and toggle the button the numbers of times
+for each number.The array[2, 3, 2] would toggle the button 7 times.
+The light is off to start with.Log to the console whether or not the light is on at the end.*/
+/* console.log("=======Extra Credit=======");
+var extraCreditArray = [2, 3, 2];
+for (i = 0; i < extraCreditArray.length; i++) {
+    if (extraCreditArray[i] % 2 === 1) {
+        console.log("The Light is On");
+    } else {
+        console.log("The Light is Off");
+    }
+} */
