@@ -25,7 +25,18 @@ var peopleWhoWantToSeeMadMaxFuryRoad = [{
         gender: "Female"
     }
 ];
-console.log("=======Numbers 1 & 2=======");
+console.log("=======Numbers 1=======");
+//#1 Loop through the array and log to the console "old enough" if they are 18 or older, and "not old enough" if they aren't 18.
+for (i = 0; i < peopleWhoWantToSeeMadMaxFuryRoad.length; i++) {
+    if (peopleWhoWantToSeeMadMaxFuryRoad[i].age >= 18) {
+        //#2 Log to the console a personalized message.
+        console.log("Old Enough");
+    } else {
+        //#2 Log to the console a personalized message.
+        console.log("Not Old Enough");
+    }
+}
+console.log("=======Numbers 2=======");
 //#1 Loop through the array and log to the console "old enough" if they are 18 or older, and "not old enough" if they aren't 18.
 for (i = 0; i < peopleWhoWantToSeeMadMaxFuryRoad.length; i++) {
     if (peopleWhoWantToSeeMadMaxFuryRoad[i].age >= 18) {
@@ -36,6 +47,8 @@ for (i = 0; i < peopleWhoWantToSeeMadMaxFuryRoad.length; i++) {
         console.log(peopleWhoWantToSeeMadMaxFuryRoad[i].name + " is Not Old Enough to Watch Mad Max: Fury Road.");
     }
 }
+
+
 console.log("=======Number 3=======");
 //#3 Check to see if the movie goer is a male or female for an even more personalized message.
 for (i = 0; i < peopleWhoWantToSeeMadMaxFuryRoad.length; i++) {
