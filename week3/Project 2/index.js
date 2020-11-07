@@ -31,3 +31,16 @@ var myFavoriteNumber = oddOrEven(10);
 /*Write a function that accepts a string as a parameter. 
 If the length of the string is less than or equal to twenty characters long, return the string concatenated with itself (string + string). 
 If the string is more than twenty characters long, return the first half of the string.*/
+/* function stringParameter(string) {
+    var x;
+    if (string.length < 20) {
+        x = Math.floor(string.length + string.length);
+    } else {
+        x = Math.floor(string.length / 2) - 1;
+    }
+    return string.substring(0, x);
+}
+
+var half = stringParameter("HowdyDoodyGalsAndFellas");
+
+console.log(half); */
