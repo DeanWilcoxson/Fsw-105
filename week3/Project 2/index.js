@@ -12,15 +12,6 @@ function whichNumberIsLargest(num1, num2, num3) {
 var arrayOfNumbers = whichNumberIsLargest(5, 4, 3);
 console.log(arrayOfNumbers);
 
-/*  if ((num1 > num2) && (num1 > num3)) {
-     console.log(num1 + " is the Largest Number");
- } else if ((num2 > num1) && (num2 > num3)) {
-     console.log(num2 + " is the Largest Number");
- } else if ((num3 > num1) && (num3 > num2)) {
-     console.log(num3 + " is the Largest Number");
- } else {
-     console.log(num1 + ", " + num2 + ", or " + num3 + " is Not a Number");
- } */
 
 /*Function 3 - Write a function that accepts one number as a parameter, and returns whether that number is even or odd. 
 (Return the string "even" or "odd");*/
