@@ -30,13 +30,16 @@ the first half is capitalized, and the second half is lower cased.
 (If the string length is odd, capitalize the shorter of the first half.)*/
 console.log("=======Function4 Output=======");
 
-function firstHalfAllCaps(string) {
-    console.log(string.toUpperCase().slice(0, string.length / 2));
+function firstHalfAllCaps(str) {
+
+    var halfPoint = (str.length / 2);
+    var fHalf = str.slice(0, halfPoint);
+    var sHalf = str.slice(halfPoint);
+    var response = fHalf.toUpperCase() + sHalf.toLowerCase();
+    console.log(response);
 }
 var myPhrase = firstHalfAllCaps("Never give up");
 
 /*Extra Credit Function - Make a function that takes any string and capitalizes any 
 character that follows a space.*/
-function capsAfterWhitespace(string) {
-
-}
+/* console.log("=======Extra Credit Output======="); */
