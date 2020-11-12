@@ -1,3 +1,4 @@
+//jshint esversion: 6
 const readline = require("readline-sync");
 
 function add(num1, num2) {
