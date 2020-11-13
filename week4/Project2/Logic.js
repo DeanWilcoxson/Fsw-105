@@ -26,16 +26,16 @@ var divideResult = div(num1, num2);
 // If/Else Block (Conditions for which function to run)
 if (operation === "add") {
     add(num1, num2);
-    console.log(addResult);
+    console.log("The Addition of " + num1 + " & " + num2 + " equals: " + addResult);
 } else if (operation === "sub") {
     sub(num1, num2);
-    console.log(subtractResult);
+    console.log("The Subtraction of " + num1 + " & " + num2 + " equals: " + subtractResult);
 } else if (operation === "mul") {
     mul(num1, num2);
-    console.log(multiplyResult);
+    console.log("The Multiplication of " + num1 + " & " + num2 + " equals: " + multiplyResult);
 } else if (operation === "div") {
     div(num1, num2);
-    console.log(divideResult);
+    console.log("The Division of " + num1 + " & " + num2 + " equals: " + divideResult);
 } else {
     console.log("Please enter an accepted operator");
 }
