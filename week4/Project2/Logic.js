@@ -27,13 +27,13 @@ function div(num1, num2) {
 var divideResult = div(num1, num2);
 console.log(divideResult);
 
-if (operation === add) {
+if (operation === "add") {
     add(num1, num2);
-} else if (operation === sub) {
+} else if (operation === "sub") {
     sub(num1, num2);
-} else if (operation === mul) {
+} else if (operation === "mul") {
     mul(num1, num2);
-} else if (operation === div) {
+} else if (operation === "div") {
     div(num1, num2);
 } else {
     console.log("Please enter an accepted operator");
