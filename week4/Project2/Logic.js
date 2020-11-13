@@ -1,33 +1,39 @@
 var readlineSync = require("readline-sync");
-
 var num1 = readlineSync.questionInt("First Number:");
 var num2 = readlineSync.questionInt("Second Number:");
-var operation = readlineSync.questionInt("Perform Which Calculation: add, sub, mul, div:");
-
+var operation = readlineSync.question("Perform Which Calculation: add, sub, mul, div:");
 
 function add(num1, num2) {
     return (num1 + num2);
 }
-var addResult = add(100, 100);
+var addResult = add(num1, num2);
 console.log(addResult);
 
-
-function subtract(num1, num2) {
+function sub(num1, num2) {
     return (num1 - num2);
 }
-var subtractResult = subtract(100, 100);
+var subtractResult = sub(num1, num2);
 console.log(subtractResult);
 
-
-function multiply(num1, num2) {
+function mul(num1, num2) {
     return (num1 * num2);
 }
-var multiplyResult = multiply(100, 100);
+var multiplyResult = mul(num1, num2);
 console.log(multiplyResult);
 
-
-function divide(num1, num2) {
+function div(num1, num2) {
     return (num1 / num2);
 }
-var divideResult = divide(100, 100);
+var divideResult = div(num1, num2);
 console.log(divideResult);
+if (operation === add) {
+    add(num1, num2);
+} else if (operation === sub) {
+    sub(num1, num2);
+} else if (operation === mul) {
+    mul(num1, num2);
+} else if (operation === div) {
+    div(num1, num2);
+} else {
+    console.log("Please enter an accepted operator");
+}
