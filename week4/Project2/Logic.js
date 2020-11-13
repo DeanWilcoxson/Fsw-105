@@ -1,5 +1,9 @@
-//jshint esversion: 6
-const readline = require("readline-sync");
+var readlineSync = require("readline-sync");
+
+var num1 = readlineSync.questionInt("First Number:");
+var num2 = readlineSync.questionInt("Second Number:");
+var operation = readlineSync.questionInt("Perform Which Calculation: add, sub, mul, div:");
+
 
 function add(num1, num2) {
     return (num1 + num2);

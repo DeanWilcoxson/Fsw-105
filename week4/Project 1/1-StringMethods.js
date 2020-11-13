@@ -39,7 +39,3 @@ function firstHalfAllCaps(str) {
     console.log(response);
 }
 var myPhrase = firstHalfAllCaps("Never give up");
-
-/*Extra Credit Function - Make a function that takes any string and capitalizes any 
-character that follows a space.*/
-/* console.log("=======Extra Credit Output======="); */
