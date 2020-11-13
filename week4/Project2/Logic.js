@@ -26,6 +26,7 @@ function div(num1, num2) {
 }
 var divideResult = div(num1, num2);
 console.log(divideResult);
+
 if (operation === add) {
     add(num1, num2);
 } else if (operation === sub) {
