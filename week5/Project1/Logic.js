@@ -71,7 +71,7 @@ function capitalizeNames(arr) {
 }
 console.log(capitalizeNames(["john", "JACOB", "jinGleHeimer", "schmidt"]));
 
-//Extra Credit 1) Make an array of strings of the names
+/* //Extra Credit 1) Make an array of strings of the names
 function namesOnly(arr) {
 
 }
@@ -93,7 +93,7 @@ console.log(makeStrings([
     { name: "Paris Hilton", age: 5 },
     { name: "Kanye West", age: 16 },
     { name: "Bob Ziroll", age: 100 }
-]));
+])); */
 
 //=======================================================Section C. Use the built-in .reduce() method on arrays to solve all of these problems=======================================================
 console.log("------Section C-----");
@@ -142,7 +142,7 @@ var voters = [
 ];
 console.log(totalVotes(voters));
 
-//Extra Credit 1) Given an array of all your wishlist items, return the total cost of all items
+/* //Extra Credit 1) Given an array of all your wishlist items, return the total cost of all items
 function shoppingSpree(arr) {
 
 }
@@ -165,7 +165,7 @@ var arrays = [
     [4, 5, 6]
 ];
 console.log(flatten(arrays));
-
+ */
 //=======================================================Section D. Use the built-in .sort() method on arrays to solve all of these problems=======================================================
 console.log("------Section D-----");
 
@@ -196,8 +196,8 @@ function lengthSort(arr) {
 }
 console.log(lengthSort(["Dog", "Wolf", "By", "Family", "Eaten"]));
 
-//Extra Credit) Sort an array alphabetically
+/* //Extra Credit) Sort an array alphabetically
 function alphabetical(arr) {
 
 }
-console.log(alphabetical(["Dog", "Wolf", "By", "Family", "Eaten"]));
+console.log(alphabetical(["Dog", "Wolf", "By", "Family", "Eaten"])); */
