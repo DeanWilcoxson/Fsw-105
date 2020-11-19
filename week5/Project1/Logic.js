@@ -109,7 +109,10 @@ console.log(total([1, 2, 3]));
 
 //2) Turn an array of numbers into a long string of all the numbers
 function stringConcat(arr) {
-
+    const conCatStr = arr.reduce(function(final, num) {
+        return final.toString() + num.toString();
+    });
+    return conCatStr;
 }
 console.log(stringConcat([1, 2, 3]));
 
