@@ -71,7 +71,7 @@ function capitalizeNames(arr) {
 }
 console.log(capitalizeNames(["john", "JACOB", "jinGleHeimer", "schmidt"]));
 
-/* //Extra Credit 1) Make an array of strings of the names
+//Extra Credit 1) Make an array of strings of the names
 function namesOnly(arr) {
 
 }
@@ -94,7 +94,7 @@ console.log(makeStrings([
     { name: "Kanye West", age: 16 },
     { name: "Bob Ziroll", age: 100 }
 ]));
- */
+
 //=======================================================Section C. Use the built-in .reduce() method on arrays to solve all of these problems=======================================================
 console.log("------Section C-----");
 
@@ -118,7 +118,13 @@ console.log(stringConcat([1, 2, 3]));
 
 //3) Turn an array of voter objects into a count of how many people voted
 function totalVotes(arr) {
-
+    const voted = arr.reduce(function(final, voter) {
+        if (voter.voted) {
+            final++;
+        }
+        return final;
+    }, 0);
+    return voted;
 }
 var voters = [
     { name: "Bob", age: 30, voted: true },
@@ -136,7 +142,7 @@ var voters = [
 ];
 console.log(totalVotes(voters));
 
-/* //Extra Credit 1) Given an array of all your wishlist items, return the total cost of all items
+//Extra Credit 1) Given an array of all your wishlist items, return the total cost of all items
 function shoppingSpree(arr) {
 
 }
@@ -158,31 +164,40 @@ var arrays = [
     [true],
     [4, 5, 6]
 ];
-console.log(flatten(arrays)); */
+console.log(flatten(arrays));
 
 //=======================================================Section D. Use the built-in .sort() method on arrays to solve all of these problems=======================================================
 console.log("------Section D-----");
 
 //1) Sort an array from smallest number to largest
 function leastToGreatest(arr) {
-
+    const leastNumArr = arr.sort(function(a, b) {
+        return a - b;
+    });
+    return leastNumArr;
 }
-console.log(leastToGreatest(1, 3, 5, 2, 90, 20));
+console.log(leastToGreatest([1, 3, 5, 2, 90, 20]));
 
 //2) Sort an array from largest number to smallest
 function greatestToLeast(arr) {
-
+    const greatNumArr = arr.sort(function(a, b) {
+        return b - a;
+    });
+    return greatNumArr;
 }
-console.log(greatestToLeast(1, 3, 5, 2, 90, 20));
+console.log(greatestToLeast([1, 3, 5, 2, 90, 20]));
 
 //3) Sort an array from shortest string to longest
 function lengthSort(arr) {
-
+    const lengthArr = arr.sort(function(a, b) {
+        return a.length - b.length;
+    });
+    return lengthArr;
 }
 console.log(lengthSort(["Dog", "Wolf", "By", "Family", "Eaten"]));
 
-/* //Extra Credit) Sort an array alphabetically
+//Extra Credit) Sort an array alphabetically
 function alphabetical(arr) {
 
 }
-console.log(alphabetical(["Dog", "Wolf", "By", "Family", "Eaten"])); */
+console.log(alphabetical(["Dog", "Wolf", "By", "Family", "Eaten"]));
