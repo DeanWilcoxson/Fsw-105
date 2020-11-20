@@ -9,7 +9,6 @@ function runForLoops(pets) {
     var petObjects = [];
     for (var i = 0; i < pets.length; i++) {
         var pet = { type: pets[i] };
-        name;
         if (pets[i] === "cat") {
             name = "fluffy";
         } else { name = "spot"; }
