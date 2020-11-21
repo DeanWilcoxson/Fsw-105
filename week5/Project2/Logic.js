@@ -26,11 +26,12 @@ Be aware that if JavaScript sees a { directly after the => it will think it's st
 console.log("=====Number2=====");
 const carrots = ["bright orange", "ripe", "rotten"];
 
-function mapVegetables(arr) {
+mapVegetables = arr => {
     return arr.map(function(carrot) {
         return { type: "carrot", name: carrot };
     });
-}
+};
+console.log(carrots);
 
 /*3) Re-write this .filter() using an arrow function:*/
 console.log("=====Number3=====");
@@ -43,35 +44,53 @@ const people = [{
         friendly: true
     },
     {
-        name: "Luigi",
+        name: "Mario",
         friendly: true
     },
 
     {
-        name: "Luigi",
-        friendly: true
+        name: "Bowser",
+        friendly: false
     }
 ];
+
+filterForFriendly = arr => {
+    return arr.filter(function(person) {
+        return person.friendly;
+    });
+};
+console.log(filterForFriendly(people));
 
 /*4) Re-write the following functions to be arrow functions:*/
 console.log("=====Number4=====");
 
-function doMathSum(a, b) {
-    return a + b;
-}
-var produceProduct = function(a, b) {
-    return a * b;
-};
+doMathSum = (a, b) => a + b;
+console.log(doMathSum(1, 2));
+
+produceProduct = (a, b) => a * b;
+console.log(produceProduct(10, 10));
+
 /*5) Write a printString function that takes firstName, lastName, and age as parameters and returns a string like the following:
 firstName should default to "Jane", lastName should default to "Doe", age should default to 100*/
 console.log("=====Number5=====");
 
 function printString(fName, lName, age) {
-
+    fName = "Jane";
+    lName = "Doe";
+    age = 100;
+    return ("Hi, " + fName + " " + lName + "! How does it feel to be " + age + "?! At least you're still up and around at your age!");
 }
+console.log(printString());
 /*6) Use template literals to build the string from Requirement 5*/
 console.log("=====Number6=====");
 
+function printString(fName, lName, age) {
+    fName = "Jane";
+    lName = "Doe";
+    age = 100;
+    return (`Hi, ${fName} ${lName}! How does it feel to be ${age}?! At least you're still up and around at your age!`);
+}
+console.log(printString());
 /*7) Use the shorthand syntax to make the following filter take up one line. Copy and paste the array to test it.*/
 console.log("=====Number7=====");
 const animals = [
@@ -82,7 +101,7 @@ const animals = [
 ];
 
 function filterForDogs(arr) {
-    return arr.filter(animal => {
+    arr.filter(animal => {
         if (animal.type === "dog") {
             return true;
         } else {
@@ -90,5 +109,18 @@ function filterForDogs(arr) {
         }
     });
 }
+
+console.log(filterForDogs([
+    { type: "dog", name: "theodore" },
+    { type: "cat", name: "whiskers" },
+    { type: "pig", name: "piglette" },
+    { type: "dog", name: "sparky" }
+]));
+
 /*8) Using template literals, write a function that takes location and name parameters and outputs a message formatted like this:*/
 console.log("=====Number8=====");
+
+function templateString(location, name) {
+    return (`Hi ${name}, \n Welcome to ${location}! \n I hope you enjoyed your flight! Please let your personal attendant know if you need anything before you exit the Jet, Thank you for choosing Cloud Nine Airlines!`);
+}
+console.log(templateString("Hawaii", "Dean"));
