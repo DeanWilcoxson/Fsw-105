@@ -142,9 +142,12 @@ var voters = [
 ];
 console.log(totalVotes(voters));
 
-/* //Extra Credit 1) Given an array of all your wishlist items, return the total cost of all items
+//Extra Credit 1) Given an array of all your wishlist items, return the total cost of all items
 function shoppingSpree(arr) {
-
+    const result = arr.reduce(function(a, b) {
+        return a += b.price;
+    }, 0);
+    return result;
 }
 var wishlist = [
     { title: "Tesla Model S", price: 90000 },
@@ -155,7 +158,7 @@ var wishlist = [
 ];
 console.log(shoppingSpree(wishlist));
 
-//Extra Credit 2) Given an array of arrays, flatten them into a single array
+/* //Extra Credit 2) Given an array of arrays, flatten them into a single array
 function flatten(arr) {
 
 }
@@ -164,8 +167,7 @@ var arrays = [
     [true],
     [4, 5, 6]
 ];
-console.log(flatten(arrays));
- */
+console.log(flatten(arrays)); */
 //=======================================================Section D. Use the built-in .sort() method on arrays to solve all of these problems=======================================================
 console.log("------Section D-----");
 
