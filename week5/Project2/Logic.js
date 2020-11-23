@@ -31,7 +31,7 @@ mapVegetables = arr => {
         return { type: "carrot", name: carrot };
     });
 };
-console.log(carrots);
+console.log(mapVegetables(carrots));
 
 /*3) Re-write this .filter() using an arrow function:*/
 console.log("=====Number3=====");
@@ -84,13 +84,13 @@ console.log(printString());
 /*6) Use template literals to build the string from Requirement 5*/
 console.log("=====Number6=====");
 
-function printString(fName, lName, age) {
+function printString1(fName, lName, age) {
     fName = "Jane";
     lName = "Doe";
     age = 100;
     return (`Hi, ${fName} ${lName}! How does it feel to be ${age}?! At least you're still up and around at your age!`);
 }
-console.log(printString());
+console.log(printString1());
 /*7) Use the shorthand syntax to make the following filter take up one line. Copy and paste the array to test it.*/
 console.log("=====Number7=====");
 const animals = [
@@ -100,15 +100,7 @@ const animals = [
     { type: "dog", name: "sparky" }
 ];
 
-function filterForDogs(arr) {
-    arr.filter(animal => {
-        if (animal.type === "dog") {
-            return true;
-        } else {
-            return false;
-        }
-    });
-}
+filterForDogs = arr => arr.filter(animal => (animal.type === "dog") ? true : false);
 
 console.log(filterForDogs([
     { type: "dog", name: "theodore" },
