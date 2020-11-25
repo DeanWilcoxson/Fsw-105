@@ -3,7 +3,7 @@ const readline = require("readline-sync");
 const name1 = readline.question(`\n I am the Entity, What is your name unfortunate one?: `);
 let lifePoint = true;
 let gotKey = false;
-console.log(`\n \t What kind of a name is " + name1 + "?? Hahahah`);
+console.log(`\n \t What kind of a name is ${name1} ?? Hahahah`);
 while (lifePoint == true) {
     const choices = readline.keyIn(`Hahaha Which do you prefer TO BE YOUR END ${name1}!? 
         \n \t You Have but three options:
