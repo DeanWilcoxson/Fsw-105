@@ -1,15 +1,33 @@
 /* jshint esversion: 6 */
-
-//Declaring Global Variables
 const readline = require("readline-sync");
 let healthPoints = 100;
 let isAlive = true;
-let gutsAttack = Math.floor(Math.random() * 20 + 2);
+let gutsAttack = Math.floor(Math.random() * 20 + 5);
 let weaponOfChoice = "The DragonSlayer, A Massive Demon Slaying Great Sword";
-let potion = "Healing Potion";
-let armor = " Berserker Armor";
-let loot = [potion, armor];
-//let demons = [{ grunbeld }, { zodd }, { griffith }, { beelzebub }, { ganon }, { dracula }]; 
+
+function Item(title, effect) {
+    this.title = title;
+    this.effect = effect;
+}
+Item.prototype.displayItems = function() {
+    console.log(`${this.title}${this.effect}`);
+};
+
+let items = [];
+let armor = new Item("Berserker Armor: ", "Gain Attack Power, But Lose Health");
+let potion = new Item("Potion: ", "Adds 25 Health");
+items.push(armor, potion);
+
+function Demons(name, health, attackPower, isAlive = true) {
+    this.name = name;
+    this.health = health;
+    this.attackPower = attackPower;
+    this.isAlive = isAlive;
+}
+
+let demons = [];
+
+
 //Welcome Message
 const welcomeName = readline.question(`\n\tWelcome Struggler, \nIt seems you have been freed from the Mortal-Coil! 
 Fate has delivered you from Human Inevitability (Death). \nWhat is your Name? So I may address you properly Struggler.\n\n`);
@@ -19,7 +37,6 @@ Here you will find NO reprieve, NO rest, NO reservations from the forces that ai
 Struggle, Fight, Contend, for that alone is the sword of one whom defies death. ${welcomeName}, you have the makings of a Great-Hero. However,
 many that have stood where you stand now, have had the same great makings. Don't be caught off guard for terror lurks around every corner...`);
 goBerserk();
-
 //Main Menu
 function goBerserk() {
     while (healthPoints > 0) {
@@ -29,12 +46,14 @@ function goBerserk() {
         } else if (options == 2) {
             console.log(`Name: ${welcomeName} \nHP: ${healthPoints} \nWeapon: ${weaponOfChoice} \nAttack:${gutsAttack}`);
         } else if (options == 3) {
-            console.log(`Items: ${loot}`);
+            for (i = 0; i < items.length; i++) {
+                items[i].displayItems();
+            }
             let useItem = readline.keyIn(`\nWould you like to use an item? \n[1]Yes [2]Not Yet\n\n`, { limit: `$<1-2>` });
             if (useItem == 1) {
                 let itemUse = readline.keyIn(`
                 \n[1] Healing Potion (Gain 25 Health)
-                \n[2] Berserker Armor (Raise Attack Up, but lose Health) 
+                \n[2] Berserker Armor (Raise Attack, but Lose Health) 
                 \n[3] Menu (Return to the Main Menu)\n\n`, { limit: `$<1-3>` });
                 if (itemUse == 1) {
                     console.log(`\nYou have Used a potion.`);
@@ -58,21 +77,37 @@ function goBerserk() {
     }
 }
 
+
+
 //Item Use 1
 function usePotion() {
-    healthPoints += 25;
-    console.log(`\nYou Have Gained 25 HP. Your new HP is: ${healthPoints}`);
-    goBerserk();
+    for (i = 0; i < items.length; i++) {
+        if (items[i] != potion) {
+            console.log("You have already used your Potion");
+        } else if (items[i] == potion) {
+            healthPoints += 25;
+            items.shift(potion);
+            console.log(`\nYou Have Gained 25 HP. Your new HP is: ${healthPoints}`);
+            console.log(`The potion was removed from your Items`);
+        }
+    }
 }
-
 //Item Use 2
 function useAttackUp() {
-    gutsAttack += 10;
-    healthPoints -= 20;
-    console.log(`\nYou Have gained Attack Power From your Berserker Armor. But You have Lost Health.`);
-    console.log(`\nYour new attack power is: ${gutsAttack}`);
-    console.log(`\nYour Health has been lowered by 20. It is now: ${healthPoints}`);
-    goBerserk();
+    for (i = 0; i < items.length; i++) {
+        if (items[i] != armor) {
+            console.log("You are already wearing your armor!");
+        } else if (items[i] == armor) {
+            gutsAttack += 10;
+            healthPoints -= 20;
+            items.shift(armor);
+            console.log(`\nYou Have gained Attack Power From your Berserker Armor. But You have Lost Health.`);
+            console.log(`Your new attack power is: ${gutsAttack}`);
+            console.log(`Your Health has been lowered by 20. It is now: ${healthPoints}`);
+            console.log(`The armor was removed from your Items (You're wearing it!)`);
+        }
+    }
+
 }
 
 //Walk
@@ -88,11 +123,10 @@ function travel() {
         console.log("You can see nothing for miles.")
     );
 }
-
 //Enemy chance to appear
 function impendingThreat() {
-    console.log("\nThere are only two choices. Draw First blood, or.. try to make a break for it and hope that it cant fly.");
-    let options = readline.keyIn(`\n[1] Struggle and Fight the Demon \t[2] Run\n\n`, { limit: `$<1-2>` });
+    console.log("There are only two choices. Draw First blood, or.. try to make a break for it and hope that it cant fly.");
+    let options = readline.keyIn(`\n\tMenu:\n[1] Struggle and Fight the Demon \t[2] Run\n\n`, { limit: `$<1-2>` });
     if (options == 1) {
         console.log(`\nYou lunge toward the Demon for a preemptive strike! Hyahhhh!!!!`);
         demonSpawn();
@@ -107,7 +141,6 @@ function impendingThreat() {
         }
     }
 }
-
 //Which enemy Function to run
 function demonSpawn() {
     let demon = Math.random();
@@ -138,27 +171,50 @@ function block() {
 }
 
 //Enemy Function 1
+let grunbeldDemon = new Demons("Grunbeld, The Great Flame Dragon", `${grunbeldsHealth}`, `${grunbeldsAttack}`);
+demons.push(grunbeldDemon);
+
 function grunbeld() {
     grunbeldIsAlive = true;
     let grunbeldsHealth = 40;
     let grunbeldsAttack = Math.floor(Math.random() * 5 + 5);
     console.log(`\nI serve the King of Longing, Now, Know your place sacrifice! And DIE!!`);
     while ((grunbeldsHealth > 0) && (healthPoints > 0)) {
-        let options = readline.keyIn(`\n[1] Attack [2] Block\n\n`, { limit: `$<1-2>` });
+        let options = readline.keyIn(`\n[1] Attack [2] Block [3] Items\n\n`, { limit: `$<1-3>` });
         if (options == 1) {
             grunbeldsHealth -= gutsAttack;
             healthPoints -= grunbeldsAttack;
             console.log(`\tYou Have dealt ${gutsAttack} damage to Grunbeld!`);
-            console.log(`\tGrunbeld dealt ${grunbeldsAttack} damage to ${welcomeName}!`);
+            console.log(`Grunbeld dealt ${grunbeldsAttack} damage to ${welcomeName}!`);
             console.log(`\tYour Health is now ${healthPoints}`);
-            console.log(`\tGrunbelds Health is now ${grunbeldsHealth}`);
+            console.log(`Grunbelds Health is now ${grunbeldsHealth}`);
         } else if (options == 2) {
             block();
             console.log("\nYou Blocked the attack, but took chip Damage");
             console.log(`\nYour Health is now ${healthPoints}`);
+        } else if (options == 3) {
+            for (i = 0; i < items.length; i++) {
+                items[i].displayItems();
+            }
+            let useItem = readline.keyIn(`\nWould you like to use an item? \n[1]Yes [2]No\n\n`, { limit: `$<1-2>` });
+            if (useItem == 1) {
+                let itemUse = readline.keyIn(`
+                \n[1] Healing Potion (Gain 25 Health)
+                \n[2] Berserker Armor (Raise Attack Up, but lose Health)\n\n`, { limit: `$<1-2>` });
+                if (itemUse == 1) {
+                    console.log(`\nYou have Used a potion.`);
+                    usePotion();
+                    grunbeld();
+                } else if (itemUse == 2) {
+                    console.log(`\nYou have put on the Berserker Armor.`);
+                    useAttackUp();
+                    grunbeld();
+                }
+            }
         }
         if (grunbeldsHealth <= 0) {
             grunbeldIsAlive = false;
+            demons.pop(grunbeldDemon);
             console.log("\nUghhh! NO!! How could you defeat me..");
             goBerserk();
         } else if (healthPoints <= 0) {
@@ -173,18 +229,33 @@ function zodd() {
     let zoddsHealth = 75;
     let zoddsAttack = Math.floor(Math.random() * 5 + 10);
     while ((zoddsHealth > 0) && (healthPoints > 0)) {
-        let options = readline.keyIn(`\n[1] Attack [2] Block\n\n`, { limit: `$<1-2>` });
+        let options = readline.keyIn(`\n[1] Attack [2] Block [3] Items\n\n`, { limit: `$<1-3>` });
         console.log(`\nAmazing! I found someone to do battle with! You cannot flee! You must do battle with me!`);
         if (options == 1) {
             zoddsHealth -= gutsAttack;
             healthPoints -= zoddsAttack;
             console.log(`\nYou Have dealt ${gutsAttack} damage to Zodd!`);
-            console.log(`\nZodd dealt ${zoddsAttack} damage to ${welcomeName}!`);
+            console.log(`Zodd dealt ${zoddsAttack} damage to ${welcomeName}!`);
             console.log(`\nYour Health is now ${healthPoints}.`);
-            console.log(`\nZodd Health is now ${zoddsHealth}.`);
+            console.log(`Zodd Health is now ${zoddsHealth}.`);
         } else if (options == 2) {
             console.log("\nYou blocked my attack successfully, Well done.");
             console.log("\nIn the past 50 years, not a single warrior has been capable of defending themselves from my attack, Except you.");
+        } else if (options == 3) {
+            console.log(`Items: ${loot}`);
+            let useItem = readline.keyIn(`\nWould you like to use an item? \n[1]Yes [2]No\n\n`, { limit: `$<1-2>` });
+            if (useItem == 1) {
+                let itemUse = readline.keyIn(`
+                \n[1] Healing Potion (Gain 25 Health)
+                \n[2] Berserker Armor (Raise Attack Up, but lose Health)\n\n`, { limit: `$<1-2>` });
+                if (itemUse == 1) {
+                    console.log(`\nYou have Used a potion.`);
+                    usePotion();
+                } else if (itemUse == 2) {
+                    console.log(`\nYou have put on the Berserker Armor.`);
+                    useAttackUp();
+                }
+            }
         }
         if (zoddsHealth <= 0) {
             console.log("\nUghh!!! Throughout my 300 years of slaughtering, You are the first one who has wounded me like this!!!");
@@ -211,9 +282,9 @@ function griffith() {
             griffithsHealth -= gutsAttack;
             healthPoints -= griffithsAttack;
             console.log(`\nYou Have dealt ${gutsAttack} damage to Griffith!`);
-            console.log(`\nGriffith dealt ${griffithsAttack} damage to ${welcomeName}!`);
+            console.log(`Griffith dealt ${griffithsAttack} damage to ${welcomeName}!`);
             console.log(`\nYour Health is now ${healthPoints}`);
-            console.log(`\nGriffiths Health is now ${griffithsHealth}`);
+            console.log(`Griffiths Health is now ${griffithsHealth}`);
         } else if (options == 2) {
             block();
             console.log("\nYou Blocked the attack, but took chip Damage");
@@ -240,9 +311,9 @@ function beelzebub() {
             beelzebubsHealth -= gutsAttack;
             healthPoints -= beelzebubsAttack;
             console.log(`\nYou Have dealt ${gutsAttack} damage to Beelzebub!`);
-            console.log(`\nBeelzebub dealt ${beelzebubsAttack} damage to ${welcomeName}!`);
+            console.log(`Beelzebub dealt ${beelzebubsAttack} damage to ${welcomeName}!`);
             console.log(`\nYour Health is now ${healthPoints}`);
-            console.log(`\nBeelzebubs Health is now ${beelzebubsHealth}`);
+            console.log(`Beelzebubs Health is now ${beelzebubsHealth}`);
         } else if (options == 2) {
             block();
             console.log("\nYou Blocked the attack, but took chip Damage");
@@ -271,9 +342,9 @@ function ganon() {
             ganonsHealth -= gutsAttack;
             healthPoints -= ganonsAttack;
             console.log(`\nYou Have dealt ${gutsAttack} damage to Ganon!`);
-            console.log(`\nGanon dealt ${ganonsAttack} damage to ${welcomeName}!`);
+            console.log(`Ganon dealt ${ganonsAttack} damage to ${welcomeName}!`);
             console.log(`\nYour Health is now ${healthPoints}`);
-            console.log(`\nGanons Health is now ${ganonsHealth}`);
+            console.log(`Ganons Health is now ${ganonsHealth}`);
         } else if (options == 2) {
             block();
             console.log("\nYou Blocked the attack, but took chip Damage");
