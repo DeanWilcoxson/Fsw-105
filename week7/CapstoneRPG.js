@@ -18,15 +18,25 @@ let armor = new Item("Berserker Armor: ", "Gain Attack Power, But Lose Health");
 let potion = new Item("Potion: ", "Adds 25 Health");
 items.push(armor, potion);
 
-function Demons(name, health, attackPower, isAlive = true) {
+function Demons(name, health, attackPower) {
     this.name = name;
     this.health = health;
     this.attackPower = attackPower;
-    this.isAlive = isAlive;
 }
 
 let demons = [];
-
+let grunbeldDemon = new Demons("Grunbeld, The Great Flame Dragon", `${grunbeldsHealth}`, `${grunbeldsAttack}`);
+demons.push(grunbeldDemon);
+let zoddDemon = new Demons("Nosferatu Zodd, The Immortal", `${zoddsHealth}`, `${zoddsAttack}`);
+demons.push(zoddDemon);
+let griffithDemon = new Demons("Griffith, King of Longing", `${griffithsHealth}`, `${griffithsAttack}`);
+demons.push(griffithDemon);
+let beelzebubDemon = new Demons("Beelzebub, Lord of The Flies", `${beelzebubHealth}`, `${beelzebubAttack}`);
+demons.push(beelzebubDemon);
+let ganonDemon = new Demons("Ganon, The Calamity", `${ganonsHealth}`, `${ganonsAttack}`);
+demons.push(ganonDemon);
+let draculaDemon = new Demons("Vlad Tepes, Dracula", `${draculasHealth}`, `${draculasAttack}`);
+demons.push(draculaDemon);
 
 //Welcome Message
 const welcomeName = readline.question(`\n\tWelcome Struggler, \nIt seems you have been freed from the Mortal-Coil! 
@@ -37,6 +47,7 @@ Here you will find NO reprieve, NO rest, NO reservations from the forces that ai
 Struggle, Fight, Contend, for that alone is the sword of one whom defies death. ${welcomeName}, you have the makings of a Great-Hero. However,
 many that have stood where you stand now, have had the same great makings. Don't be caught off guard for terror lurks around every corner...`);
 goBerserk();
+
 //Main Menu
 function goBerserk() {
     while (healthPoints > 0) {
@@ -76,9 +87,6 @@ function goBerserk() {
         isAlive = false;
     }
 }
-
-
-
 //Item Use 1
 function usePotion() {
     for (i = 0; i < items.length; i++) {
@@ -109,7 +117,6 @@ function useAttackUp() {
     }
 
 }
-
 //Walk
 function travel() {
     let enemySpawnChance = Math.floor(Math.random());
@@ -143,25 +150,26 @@ function impendingThreat() {
 }
 //Which enemy Function to run
 function demonSpawn() {
-    let demon = Math.random();
-    if (demon < 0.2) {
-        console.log("\tGrunbeld, The Great Flame Dragon Has Appeared");
-        grunbeld();
-    } else if ((demon > 0.2) && (demon < 0.4)) {
-        console.log("\tNosferatu Zodd, The Immortal Has Appeared");
-        zodd();
-    } else if ((demon > 0.4) && (demon < 0.6)) {
-        console.log("\tBeelzebub, Lord of the Flies Has Appeared");
-        beelzebub();
-    } else if ((demon > 0.6) && (demon < 0.8)) {
-        console.log("\tGanon, The Calamity Has Appeared");
-        ganon();
-    } else if ((demon > 0.8) && (demon < 0.9)) {
-        console.log("\tVlad Tepes, Dracula Has Appeared");
-        dracula();
-    } else if (demon > 0.9) {
-        console.log("\tGriffith, King of Longing Has Appeared");
-        griffith();
+    for (let demon = 0; demon < demons.length; demons++) {
+        if (demons[i] == grunbeldDemon) {
+            console.log("\tGrunbeld, The Great Flame Dragon Has Appeared");
+            grunbeld();
+        } else if (demons[i] == zoddDemon) {
+            console.log("\tNosferatu Zodd, The Immortal Has Appeared");
+            zodd();
+        } else if (demons[i] == beelzebubDemon) {
+            console.log("\tBeelzebub, Lord of the Flies Has Appeared");
+            beelzebub();
+        } else if (demons[i] == ganonDemon) {
+            console.log("\tGanon, The Calamity Has Appeared");
+            ganon();
+        } else if (demons[i] == draculaDemon) {
+            console.log("\tVlad Tepes, Dracula Has Appeared");
+            dracula();
+        } else if (demons[i] == griffithDemon) {
+            console.log("\tGriffith, King of Longing Has Appeared");
+            griffith();
+        }
     }
 }
 
@@ -171,9 +179,6 @@ function block() {
 }
 
 //Enemy Function 1
-let grunbeldDemon = new Demons("Grunbeld, The Great Flame Dragon", `${grunbeldsHealth}`, `${grunbeldsAttack}`);
-demons.push(grunbeldDemon);
-
 function grunbeld() {
     grunbeldIsAlive = true;
     let grunbeldsHealth = 40;
@@ -230,10 +235,10 @@ function zodd() {
     let zoddsAttack = Math.floor(Math.random() * 5 + 10);
     while ((zoddsHealth > 0) && (healthPoints > 0)) {
         let options = readline.keyIn(`\n[1] Attack [2] Block [3] Items\n\n`, { limit: `$<1-3>` });
-        console.log(`\nAmazing! I found someone to do battle with! You cannot flee! You must do battle with me!`);
         if (options == 1) {
             zoddsHealth -= gutsAttack;
             healthPoints -= zoddsAttack;
+            console.log(`\nAmazing! I found someone to do battle with! You cannot flee! You must do battle with me!`);
             console.log(`\nYou Have dealt ${gutsAttack} damage to Zodd!`);
             console.log(`Zodd dealt ${zoddsAttack} damage to ${welcomeName}!`);
             console.log(`\nYour Health is now ${healthPoints}.`);
