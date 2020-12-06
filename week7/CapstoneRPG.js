@@ -219,23 +219,23 @@ function impendingThreat() {
 }
 
 function demonSpawn() {
-    for (let demon = Math.random(); demon < demons.length; demon++ + 0.5) {
-        if (demons[demon] < 0.99) {
+    for (let demon = Math.random(); demon < demons.length; demon++) {
+        if (demons[demon] <= 0.99) {
             grunbeldDemon.displayDemons();
             grunbeld();
-        } else if ((demons[demon] > 1.0) && (demons[demon] < 1.99)) {
+        } else if ((demons[demon] >= 1.0) && (demons[demon] <= 1.99)) {
             zoddDemon.displayDemons();
             zodd();
-        } else if ((demons[demon] > 2.0) && (demons[demon] < 2.99)) {
+        } else if ((demons[demon] >= 2.0) && (demons[demon] <= 2.99)) {
             beelzebubDemon.displayDemons();
             beelzebub();
-        } else if ((demons[demon] > 3.0) && (demons[demon] < 3.99)) {
+        } else if ((demons[demon] >= 3.0) && (demons[demon] <= 3.99)) {
             ganonDemon.displayDemons();
             ganon();
-        } else if ((demons[demon] > 4.0) && (demons[demon] < 4.99)) {
+        } else if ((demons[demon] >= 4.0) && (demons[demon] <= 4.99)) {
             draculaDemon.displayDemons();
             dracula();
-        } else if ((demons[demon] > 5.0) && (demons[demon] < 5.99)) {
+        } else if ((demons[demon] >= 5.0) && (demons[demon] <= 5.99)) {
             griffithDemon.displayDemons();
             griffith();
         }
