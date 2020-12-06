@@ -1,146 +1,212 @@
 /* jshint esversion: 6 */
 const readline = require("readline-sync");
-let healthPoints = 100;
-let isAlive = true;
-let gutsAttack = Math.floor(Math.random() * 20 + 5);
-let weaponOfChoice = "The DragonSlayer, A Massive Demon Slaying Great Sword";
+//////////////////////////////////////////////////// Constructor Functions & Prototypes ////////////////////////////////////////////////////
+function Player(name, health, weaponOfChoice, attackPower, isAlive) {
+    this.name = name;
+    this.health = health;
+    this.weapon = weaponOfChoice;
+    this.attackPower = attackPower;
+    this.isAlive = isAlive;
+}
+Player.prototype.displayStatus = function() {
+    console.log(`${this.name} \nHealth:${this.health} \nWeapon:${this.weapon} \nAttack:${this.attackPower}`);
+};
+
+function Demons(name, health, attackPower, isAlive) {
+    this.name = name;
+    this.health = health;
+    this.attackPower = attackPower;
+    this.isAlive = isAlive;
+}
+Demons.prototype.displayDemons = function() {
+    console.log(
+        `${this.name} Has Appeared! \nHealth:${this.health} \nAttack:${this.attackPower}`
+    );
+};
+Demons.prototype.displayBounties = function() {
+    console.log(`${this.name} \n${this.isAlive}`);
+};
 
 function Item(title, effect) {
     this.title = title;
     this.effect = effect;
 }
 Item.prototype.displayItems = function() {
-    console.log(`${this.title}${this.effect}`);
+    console.log(`limit 1 each: \n${this.title}${this.effect}`);
 };
-
+////////////////////////////////////////////////////  Global Variables ////////////////////////////////////////////////////
+let player = new Player(
+    readline.question(`\n\tWelcome Struggler, \nIt seems you have been freed from the Mortal-Coil! 
+Fate has delivered you from Human Inevitability (Death). \nWhat is your Name? So I may address you properly Struggler.\n\n`),
+    100,
+    "The DragonSlayer, A Massive Demon Slaying Great Sword",
+    Math.floor(Math.random() * 20 + 5),
+    true
+);
 let items = [];
-let armor = new Item("Berserker Armor: ", "Gain Attack Power, But Lose Health");
-let potion = new Item("Potion: ", "Adds 25 Health");
-items.push(armor, potion);
-
-function Demons(name, health, attackPower) {
-    this.name = name;
-    this.health = health;
-    this.attackPower = attackPower;
-}
-
 let demons = [];
-let grunbeldDemon = new Demons("Grunbeld, The Great Flame Dragon", `${grunbeldsHealth}`, `${grunbeldsAttack}`);
+let armor = new Item("Berserker Armor ", "(Gain Attack Power, But Lose Health)");
+let potion = new Item("Potion ", "(Adds 25 Health)");
+items.push(potion, armor);
+let grunbeldDemon = new Demons(
+    "Grunbeld, The Great Flame Dragon", 50, Math.floor(Math.random() * 5 + 5), true
+);
 demons.push(grunbeldDemon);
-let zoddDemon = new Demons("Nosferatu Zodd, The Immortal", `${zoddsHealth}`, `${zoddsAttack}`);
+let zoddDemon = new Demons(
+    "Nosferatu Zodd, The Immortal", 75, Math.floor(Math.random() * 5 + 5), true
+);
 demons.push(zoddDemon);
-let griffithDemon = new Demons("Griffith, King of Longing", `${griffithsHealth}`, `${griffithsAttack}`);
+let griffithDemon = new Demons(
+    "Griffith, King of Longing", 100, Math.floor(Math.random() * 5 + 5), true
+);
 demons.push(griffithDemon);
-let beelzebubDemon = new Demons("Beelzebub, Lord of The Flies", `${beelzebubHealth}`, `${beelzebubAttack}`);
+let beelzebubDemon = new Demons(
+    "Beelzebub, Lord of The Flies", 50, Math.floor(Math.random() * 5 + 5), true
+);
 demons.push(beelzebubDemon);
-let ganonDemon = new Demons("Ganon, The Calamity", `${ganonsHealth}`, `${ganonsAttack}`);
+let ganonDemon = new Demons(
+    "Ganon, The Calamity", 50, Math.floor(Math.random() * 5 + 5), true
+);
 demons.push(ganonDemon);
-let draculaDemon = new Demons("Vlad Tepes, Dracula", `${draculasHealth}`, `${draculasAttack}`);
+let draculaDemon = new Demons(
+    "Vlad Tepes, Dracula", 50, Math.floor(Math.random() * 5 + 5), true
+);
 demons.push(draculaDemon);
 
-//Welcome Message
-const welcomeName = readline.question(`\n\tWelcome Struggler, \nIt seems you have been freed from the Mortal-Coil! 
-Fate has delivered you from Human Inevitability (Death). \nWhat is your Name? So I may address you properly Struggler.\n\n`);
-console.log(`\tAhh! ${welcomeName}, the name of a true Hero! You have been transported to a distant land.. in a far off dream.. in which the natural order has no place.
+
+//////////////////////////////////////////////////// Main Menu Function And Intro ////////////////////////////////////////////////////
+console.log(`\tAhh! ${player.name}, the name of a true Hero! You have been transported to a distant land.. in a far off dream.. in which the natural order has no place.
 Demons traverse this world, that lies outside of time and space. Your mere presence here is Like a beacon to the damned and all things that lurk in the shadows.
 Here you will find NO reprieve, NO rest, NO reservations from the forces that aim to tear you limb from limb. So I say to you this. 
-Struggle, Fight, Contend, for that alone is the sword of one whom defies death. ${welcomeName}, you have the makings of a Great-Hero. However,
+Struggle, Fight, Contend, for that alone is the sword of one whom defies death. ${player.name}, you have the makings of a Great-Hero. However,
 many that have stood where you stand now, have had the same great makings. Don't be caught off guard for terror lurks around every corner...`);
 goBerserk();
 
-//Main Menu
 function goBerserk() {
-    while (healthPoints > 0) {
-        const options = readline.keyIn(`\n\tMenu: \n[1]Wander \t[2]Status \t[3]Items \t[4]Exit\n\n`, { limit: `$<1-4>` });
+    while (player.health > 0) {
+        const options = readline.keyIn(`\n\tMenu: \n[1]Wander \t[2]Status \t[3]Items \t[4]Exit \t[5]Bounties\n\n`, { limit: `$<1-5>` });
         if (options == 1) {
             travel();
         } else if (options == 2) {
-            console.log(`Name: ${welcomeName} \nHP: ${healthPoints} \nWeapon: ${weaponOfChoice} \nAttack:${gutsAttack}`);
+            player.displayStatus();
         } else if (options == 3) {
             for (i = 0; i < items.length; i++) {
-                items[i].displayItems();
+                items[i].displayItems(i);
             }
             let useItem = readline.keyIn(`\nWould you like to use an item? \n[1]Yes [2]Not Yet\n\n`, { limit: `$<1-2>` });
-            if (useItem == 1) {
-                let itemUse = readline.keyIn(`
-                \n[1] Healing Potion (Gain 25 Health)
-                \n[2] Berserker Armor (Raise Attack, but Lose Health) 
-                \n[3] Menu (Return to the Main Menu)\n\n`, { limit: `$<1-3>` });
-                if (itemUse == 1) {
-                    console.log(`\nYou have Used a potion.`);
-                    usePotion();
-                } else if (itemUse == 2) {
-                    console.log(`\nYou have put on the Berserker Armor.`);
-                    useAttackUp();
-                } else if (itemUse == 3) {
-                    goBerserk();
+            for (item = 0; item < items.length; item++) {
+                if ((items[item] = potion) || (items[item] = armor)) {
+                    if (useItem == 1) {
+                        let itemUse = readline.keyIn(`\n[1] Potion \t[2] Armor \t[3] Menu\n\n`, { limit: `$<1-3>` });
+                        if (itemUse == 1) {
+                            usePotion();
+                        } else if (itemUse == 2) {
+                            useAttackUp();
+                        } else if (itemUse == 3) {
+                            goBerserk();
+                        }
+                    } else if (useItem == 2) {
+                        goBerserk();
+                    }
+                } else if ((items[item] !== potion) || (items[item] !== armor)) {
+                    console.log(`No items in the Inventory.`);
                 }
-            } else if (useItem == 2) {
-                goBerserk();
             }
         } else if (options == 4) {
-            console.log(`\nYou are a pitiful Weakling! You've seen the terror that is the Darkness, and have fled? You have left the rest of humanity vulnerable.`);
-            healthPoints = 0;
+            console.log(
+                `\nYou are a pitiful Weakling! You've seen the terror that is the Darkness, and have fled? You have left the rest of humanity vulnerable.`
+            );
+            player.health = 0;
+        } else if (options == 5) {
+            for (i = 0; i < demons.length; i++) {
+                demons[i].displayBounties();
+            }
         }
     }
-    if (healthPoints <= 0) {
-        isAlive = false;
+    if (player.health <= 0) {
+        player.isAlive = false;
     }
 }
-//Item Use 1
+
+//////////////////////////////////////////////////// Sub Menu Functions ////////////////////////////////////////////////////
 function usePotion() {
     for (i = 0; i < items.length; i++) {
-        if (items[i] != potion) {
+        if (items[i] !== potion) {
             console.log("You have already used your Potion");
-        } else if (items[i] == potion) {
-            healthPoints += 25;
+        } else if (items[i] === potion) {
+            player.health += 25;
             items.shift(potion);
-            console.log(`\nYou Have Gained 25 HP. Your new HP is: ${healthPoints}`);
-            console.log(`The potion was removed from your Items`);
+            console.log(`\nYou Have Gained 25 HP. Your new HP is: ${player.health}`);
+            console.log(`${potion.title} was removed from your Items`);
         }
     }
 }
-//Item Use 2
+
 function useAttackUp() {
     for (i = 0; i < items.length; i++) {
-        if (items[i] != armor) {
+        if (items[i] !== armor) {
             console.log("You are already wearing your armor!");
-        } else if (items[i] == armor) {
-            gutsAttack += 10;
-            healthPoints -= 20;
-            items.shift(armor);
-            console.log(`\nYou Have gained Attack Power From your Berserker Armor. But You have Lost Health.`);
-            console.log(`Your new attack power is: ${gutsAttack}`);
-            console.log(`Your Health has been lowered by 20. It is now: ${healthPoints}`);
-            console.log(`The armor was removed from your Items (You're wearing it!)`);
+        } else if (items[i] === armor) {
+            player.attackPower += 10;
+            player.health -= 20;
+            items.pop(armor);
+            console.log(
+                `\nYou Have gained Attack Power From your Berserker Armor. But You have Lost Health.`
+            );
+            console.log(`Your new attack power is: ${player.attackPower}`);
+            console.log(
+                `Your Health has been lowered by 20. It is now: ${player.health}`
+            );
+            console.log(
+                `${armor.title} was removed from your Items (You're wearing it!)`
+            );
         }
     }
-
 }
-//Walk
+
 function travel() {
-    let enemySpawnChance = Math.floor(Math.random());
-    if (enemySpawnChance > 0.70) {
-        console.log(`\nThis place is a Wasteland`);
-        goBerserk();
-    } else if (enemySpawnChance < 0.70) {
+    let enemySpawnChance = Math.floor(Math.random() - 1);
+    if (enemySpawnChance < 0.4) {
+        const options = readline.keyIn(`It seems safe around here, Search for Items? \n\t[1]Yes \t[2]No\n\n`, { limit: `$<1-2>` });
+        if (options == 1) {
+            for (i = 0; i < items.length; i++) {
+                if (items[i] !== potion) {
+                    items.push(potion);
+                    console.log(`You have found a Potion!!!`);
+                } else if (items[i] === potion) {
+                    console.log("You already have a potion in your inventory.");
+                    console.log("\nA Demon has noticed you. It's on your trail.");
+                    impendingThreat();
+                }
+            }
+        } else if (options == 2) {
+            goBerserk();
+        }
+    } else if (enemySpawnChance > 0.4) {
         console.log("\nA Demon has noticed you. It's on your trail.");
         impendingThreat();
-    } else(
-        console.log("You can see nothing for miles.")
-    );
+    } else(console.log("You can see nothing for miles."));
 }
-//Enemy chance to appear
+
+function block() {
+    enemyAttack = Math.floor(Math.random() * 5 - 5);
+    player.health -= -enemyAttack;
+}
+//////////////////////////////////////////////////// Enemy Spawn Chance Functions ////////////////////////////////////////////////////
 function impendingThreat() {
-    console.log("There are only two choices. Draw First blood, or.. try to make a break for it and hope that it cant fly.");
-    let options = readline.keyIn(`\n\tMenu:\n[1] Struggle and Fight the Demon \t[2] Run\n\n`, { limit: `$<1-2>` });
+    console.log(
+        "There are only two choices. Draw First blood, or.. try to make a break for it and hope that it cant fly."
+    );
+    let options = readline.keyIn(`\n\t\n[1] Struggle and Fight the Demon \t[2] Run\n\n`, { limit: `$<1-2>` });
     if (options == 1) {
         console.log(`\nYou lunge toward the Demon for a preemptive strike! Hyahhhh!!!!`);
         demonSpawn();
     } else if (options == 2) {
         let chanceToFlee = Math.random();
         if (chanceToFlee > 0.5) {
-            console.log("You kick in a sewer grate that is nearby, and escape down the tunnel.");
+            console.log(
+                "You kick in a sewer grate that is nearby, and escape down the tunnel."
+            );
             goBerserk();
         } else if (chanceToFlee < 0.5) {
             console.log("\nTrying to flee??? Weakling!");
@@ -148,249 +214,325 @@ function impendingThreat() {
         }
     }
 }
-//Which enemy Function to run
+
 function demonSpawn() {
-    for (let demon = 0; demon < demons.length; demons++) {
-        if (demons[i] == grunbeldDemon) {
-            console.log("\tGrunbeld, The Great Flame Dragon Has Appeared");
+    for (let demon = 0; demon < demons.length; demon++) {
+        if (demons[demon] == grunbeldDemon) {
+            grunbeldDemon.displayDemons();
             grunbeld();
-        } else if (demons[i] == zoddDemon) {
-            console.log("\tNosferatu Zodd, The Immortal Has Appeared");
+        } else if (demons[demon] == zoddDemon) {
+            zoddDemon.displayDemons();
             zodd();
-        } else if (demons[i] == beelzebubDemon) {
-            console.log("\tBeelzebub, Lord of the Flies Has Appeared");
+        } else if (demons[demon] == beelzebubDemon) {
+            beelzebubDemon.displayDemons();
             beelzebub();
-        } else if (demons[i] == ganonDemon) {
-            console.log("\tGanon, The Calamity Has Appeared");
+        } else if (demons[demon] == ganonDemon) {
+            ganonDemon.displayDemons();
             ganon();
-        } else if (demons[i] == draculaDemon) {
-            console.log("\tVlad Tepes, Dracula Has Appeared");
+        } else if (demons[demon] == draculaDemon) {
+            draculaDemon.displayDemons();
             dracula();
-        } else if (demons[i] == griffithDemon) {
-            console.log("\tGriffith, King of Longing Has Appeared");
+        } else if (demons[demon] == griffithDemon) {
+            griffithDemon.displayDemons();
             griffith();
         }
     }
 }
-
-function block() {
-    enemyAttack = Math.floor(Math.random() * 5 - 5);
-    healthPoints -= -enemyAttack;
-}
-
-//Enemy Function 1
+//////////////////////////////////////////////////// Enemy Functions ////////////////////////////////////////////////////
 function grunbeld() {
-    grunbeldIsAlive = true;
-    let grunbeldsHealth = 40;
-    let grunbeldsAttack = Math.floor(Math.random() * 5 + 5);
-    console.log(`\nI serve the King of Longing, Now, Know your place sacrifice! And DIE!!`);
-    while ((grunbeldsHealth > 0) && (healthPoints > 0)) {
-        let options = readline.keyIn(`\n[1] Attack [2] Block [3] Items\n\n`, { limit: `$<1-3>` });
+    console.log(
+        `\nI serve the King of Longing. Now, Know your place sacrifice! and DIE!!`
+    );
+    while (grunbeldDemon.health > 0 && player.health > 0) {
+        let options = readline.keyIn(`\n[1] Attack \t[2] Block \t[3] Items\n\n`, {
+            limit: `$<1-3>`,
+        });
         if (options == 1) {
-            grunbeldsHealth -= gutsAttack;
-            healthPoints -= grunbeldsAttack;
-            console.log(`\tYou Have dealt ${gutsAttack} damage to Grunbeld!`);
-            console.log(`Grunbeld dealt ${grunbeldsAttack} damage to ${welcomeName}!`);
-            console.log(`\tYour Health is now ${healthPoints}`);
-            console.log(`Grunbelds Health is now ${grunbeldsHealth}`);
+            grunbeldDemon.health -= player.attackPower;
+            player.health -= grunbeldDemon.attackPower;
+            console.log(`\nYou Have dealt ${player.attackPower} damage to Grunbeld!`);
+            console.log(
+                `Grunbeld dealt ${grunbeldDemon.attackPower} damage to ${player.name}!`
+            );
+            console.log(`\nYour Health is now ${player.health}`);
+            console.log(`Grunbelds Health is now ${grunbeldDemon.health}`);
         } else if (options == 2) {
             block();
             console.log("\nYou Blocked the attack, but took chip Damage");
-            console.log(`\nYour Health is now ${healthPoints}`);
+            console.log(`\nYour Health is now ${player.health}`);
         } else if (options == 3) {
             for (i = 0; i < items.length; i++) {
                 items[i].displayItems();
             }
-            let useItem = readline.keyIn(`\nWould you like to use an item? \n[1]Yes [2]No\n\n`, { limit: `$<1-2>` });
+            let useItem = readline.keyIn(`\nWould you like to use an item? \n[1] Yes [2] No\n\n `, { limit: `$<1-2>` });
             if (useItem == 1) {
-                let itemUse = readline.keyIn(`
-                \n[1] Healing Potion (Gain 25 Health)
-                \n[2] Berserker Armor (Raise Attack Up, but lose Health)\n\n`, { limit: `$<1-2>` });
+                let itemUse = readline.keyIn(`\n[1] Potion \t[2] Armor \n\n`, { limit: `$<1-2>` });
                 if (itemUse == 1) {
-                    console.log(`\nYou have Used a potion.`);
                     usePotion();
                     grunbeld();
                 } else if (itemUse == 2) {
-                    console.log(`\nYou have put on the Berserker Armor.`);
                     useAttackUp();
                     grunbeld();
                 }
             }
         }
-        if (grunbeldsHealth <= 0) {
-            grunbeldIsAlive = false;
-            demons.pop(grunbeldDemon);
+        if (grunbeldDemon.health <= 0) {
+            grunbeldDemon.isAlive = false;
+            demons.splice(-1, grunbeldDemon);
+            console.log(`${grunbeldDemon.name} Has been checked off the list of demons you are hunting.`);
             console.log("\nUghhh! NO!! How could you defeat me..");
             goBerserk();
-        } else if (healthPoints <= 0) {
-            isAlive = false;
+        } else if (player.health <= 0) {
+            player.isAlive = false;
         }
     }
 }
 
-//Enemy Function 2
 function zodd() {
-    zoddIsAlive = true;
-    let zoddsHealth = 75;
-    let zoddsAttack = Math.floor(Math.random() * 5 + 10);
-    while ((zoddsHealth > 0) && (healthPoints > 0)) {
-        let options = readline.keyIn(`\n[1] Attack [2] Block [3] Items\n\n`, { limit: `$<1-3>` });
+    console.log(`\nAmazing!I found someone to do battle with!You cannot flee!You must do battle with me!`);
+    while (zoddDemon.health > 0 && player.health > 0) {
+        let options = readline.keyIn(`\n[1] Attack \t[2] Block \t[3] Items\n\n`, {
+            limit: `$<1-3>`,
+        });
         if (options == 1) {
-            zoddsHealth -= gutsAttack;
-            healthPoints -= zoddsAttack;
-            console.log(`\nAmazing! I found someone to do battle with! You cannot flee! You must do battle with me!`);
-            console.log(`\nYou Have dealt ${gutsAttack} damage to Zodd!`);
-            console.log(`Zodd dealt ${zoddsAttack} damage to ${welcomeName}!`);
-            console.log(`\nYour Health is now ${healthPoints}.`);
-            console.log(`Zodd Health is now ${zoddsHealth}.`);
+            zoddDemon.health -= player.attackPower;
+            player.health -= zoddDemon.attackPower;
+            console.log(`\nYou Have dealt ${player.attackPower} damage to Zodd!`);
+            console.log(
+                `Zodd dealt ${zoddDemon.attackPower} damage to ${player.name}!`
+            );
+            console.log(`\nYour Health is now ${player.health}.`);
+            console.log(`Zodd Health is now ${zoddDemon.health}.`);
         } else if (options == 2) {
             console.log("\nYou blocked my attack successfully, Well done.");
-            console.log("\nIn the past 50 years, not a single warrior has been capable of defending themselves from my attack, Except you.");
+            console.log(
+                "\nIn the past 50 years, not a single warrior has been capable of defending themselves from my attack, Except you."
+            );
         } else if (options == 3) {
-            console.log(`Items: ${loot}`);
-            let useItem = readline.keyIn(`\nWould you like to use an item? \n[1]Yes [2]No\n\n`, { limit: `$<1-2>` });
-            if (useItem == 1) {
-                let itemUse = readline.keyIn(`
-                \n[1] Healing Potion (Gain 25 Health)
-                \n[2] Berserker Armor (Raise Attack Up, but lose Health)\n\n`, { limit: `$<1-2>` });
-                if (itemUse == 1) {
-                    console.log(`\nYou have Used a potion.`);
-                    usePotion();
-                } else if (itemUse == 2) {
-                    console.log(`\nYou have put on the Berserker Armor.`);
-                    useAttackUp();
+            for (i = 0; i < items.length; i++) {
+                items[i].displayItems();
+                let useItem = readline.keyIn(`\nWould you like to use an item? \n[1] Yes [2] No\n\n `, { limit: `$<1-2>` });
+                if (useItem == 1) {
+                    let itemUse = readline.keyIn(`\n[1] Healing Potion(Gain 25 Health) \n[2] Berserker Armor(Raise Attack Up, but lose Health) \n\n`, {
+                        limit: `$<1-2>`
+                    });
+                    if (itemUse == 1) {
+                        usePotion();
+                        zodd();
+                    } else if (itemUse == 2) {
+                        useAttackUp();
+                        zodd();
+                    }
                 }
             }
         }
-        if (zoddsHealth <= 0) {
-            console.log("\nUghh!!! Throughout my 300 years of slaughtering, You are the first one who has wounded me like this!!!");
-            console.log("\nHahaha! Mortal, You bear the brand of the sacrificial offering. There is no need for me to kill you, for you will surely meet your end Soon!");
-            console.log("\nNosferatu Zodd flew off.");
-            zoddIsAlive = false;
-            goBerserk();
-        } else if (healthPoints <= 0) {
-            console.log("\nWhat are you doing? Giving Up? Is this the limit of your strength? I suppose you have done admirably for a human, but if you cannot fight anymore I will tear you limb from limb!!");
-            isAlive = false;
-        }
+    }
+    if (zoddDemon.health <= 0) {
+        console.log(
+            "\nUghh!!! Throughout my 300 years of slaughtering, You are the first one who has wounded me like this!!!"
+        );
+        console.log(
+            "\nHahaha! Mortal, You bear the brand of the sacrificial offering. There is no need for me to kill you, for you will surely meet your end Soon!"
+        );
+        console.log("\nNosferatu Zodd flew off.");
+        zoddDemon.isAlive = false;
+        demons.slice(-1, zoddDemon);
+        console.log(`${zoddDemon.name} Has been checked off the list of demons you are hunting.`);
+        goBerserk();
+    } else if (player.health <= 0) {
+        console.log(
+            `\nWhat are you doing? Giving Up? Is this the limit of your strength? \nI suppose you have done admirably for a human, but if you cannot fight anymore I will tear you limb from limb!!`
+        );
+        player.isAlive = false;
     }
 }
 
-//Enemy Function 3
 function griffith() {
-    griffithIsAlive = true;
-    let griffithsHealth = 100;
-    let griffithsAttack = Math.floor(Math.random() * 20 + 2);
-    console.log(`\nIt Seems you're still struggling to survive? Not for much longer!`);
-    while ((griffithsHealth > 0) && (healthPoints > 0)) {
-        let options = readline.keyIn(`\n[1] Attack \n[2] Block\n\n`, { limit: `$<1-2>` });
+    console.log(
+        `\nIt Seems you're still struggling to survive? Not for much longer!`
+    );
+    while (griffithDemon.health > 0 && player.health > 0) {
+        let options = readline.keyIn(`\n[1] Attack \n[2] Block \n[3] Items\n\n`, {
+            limit: `$<1-3>`,
+        });
         if (options == 1) {
-            griffithsHealth -= gutsAttack;
-            healthPoints -= griffithsAttack;
-            console.log(`\nYou Have dealt ${gutsAttack} damage to Griffith!`);
-            console.log(`Griffith dealt ${griffithsAttack} damage to ${welcomeName}!`);
-            console.log(`\nYour Health is now ${healthPoints}`);
-            console.log(`Griffiths Health is now ${griffithsHealth}`);
+            griffithDemon.health -= player.attackPower;
+            player.health -= griffithDemon.attackPower;
+            console.log(`\nYou Have dealt ${player.attackPower} damage to Griffith!`);
+            console.log(
+                `Griffith dealt ${griffithDemon.attackPower} damage to ${player.name}!`
+            );
+            console.log(`\nYour Health is now ${player.health}`);
+            console.log(`Griffiths Health is now ${griffithDemon.health}`);
         } else if (options == 2) {
             block();
             console.log("\nYou Blocked the attack, but took chip Damage");
-            console.log(`\nYour Health is now ${healthPoints}`);
+            console.log(`\nYour Health is now ${player.health}`);
+        } else if (options == 3) {
+            for (i = 0; i < items.length; i++) {
+                items[i].displayItems();
+                let useItem = readline.keyIn(
+                    `\nWould you like to use an item? \n[1] Yes [2] No\n\n `, {
+                        limit: `$<1-2>`
+                    }
+                );
+                if (useItem == 1) {
+                    let itemUse = readline.keyIn(
+                        `\n[1] Healing Potion(Gain 25 Health) \n[2] Berserker Armor(Raise Attack Up, but lose Health) \n\n`, {
+                            limit: `$<1-2>`
+                        }
+                    );
+                    if (itemUse == 1) {
+                        console.log(`\nYou have Used a potion.`);
+                        usePotion();
+                        grunbeld();
+                    } else if (itemUse == 2) {
+                        console.log(`\nYou have put on the Berserker Armor.`);
+                        useAttackUp();
+                        grunbeld();
+                    }
+                }
+            }
         }
-        if (griffithsHealth <= 0) {
-            griffithIsAlive = false;
+        if (griffithDemon.health <= 0) {
+            griffithDemon.isAlive = false;
+            demons.slice(-1, griffithDemon);
+            console.log(`${griffithDemon.name} Has been checked off the list of demons you are hunting.`);
             console.log("\nUghhh! NO!! How could you defeat me..");
             goBerserk();
-        } else if (healthPoints <= 0) {
-            isAlive = false;
+        } else if (player.health <= 0) {
+            player.isAlive = false;
+            console.log("You were just a cobblestone After all.");
         }
     }
 }
 
-//Enemy Function 4
 function beelzebub() {
-    beelzebubIsAlive = true;
-    let beelzebubsHealth = 40;
-    let beelzebubsAttack = Math.floor(Math.random() * 5 + 5);
-    while ((beelzebubsHealth > 0) && (healthPoints > 0)) {
-        let options = readline.keyIn(`\n[1] Attack \n[2] Block\n\n`, { limit: `$<1-2>` });
+    while (beelzebubDemon.health > 0 && player.health > 0) {
+        let options = readline.keyIn(`\n[1] Attack \n[2] Block \n[3] Items\n\n`, {
+            limit: `$<1-3>`,
+        });
         if (options == 1) {
-            beelzebubsHealth -= gutsAttack;
-            healthPoints -= beelzebubsAttack;
-            console.log(`\nYou Have dealt ${gutsAttack} damage to Beelzebub!`);
-            console.log(`Beelzebub dealt ${beelzebubsAttack} damage to ${welcomeName}!`);
-            console.log(`\nYour Health is now ${healthPoints}`);
-            console.log(`Beelzebubs Health is now ${beelzebubsHealth}`);
+            beelzebubDemon.health -= player.attackPower;
+            player.health -= beelzebubDemon.attackPower;
+            console.log(
+                `\nYou Have dealt ${player.attackPower} damage to Beelzebub!`
+            );
+            console.log(
+                `Beelzebub dealt ${beelzebubDemon.attackPower} damage to ${player.name}!`
+            );
+            console.log(`\nYour Health is now ${player.health}`);
+            console.log(`Beelzebubs Health is now ${beelzebubDemon.health}`);
         } else if (options == 2) {
             block();
             console.log("\nYou Blocked the attack, but took chip Damage");
-            console.log(`\nYour Health is now ${healthPoints}`);
+            console.log(`\nYour Health is now ${player.health}`);
+        } else if (options == 3) {
+            for (i = 0; i < items.length; i++) {
+                items[i].displayItems();
+
+                let useItem = readline.keyIn(
+                    `\nWould you like to use an item? \n[1] Yes [2] No\n\n `, {
+                        limit: `$<1-2>`
+                    }
+                );
+                if (useItem == 1) {
+                    let itemUse = readline.keyIn(
+                        `\n[1] Healing Potion(Gain 25 Health) \n[2] Berserker Armor(Raise Attack Up, but lose Health) \n\n`, {
+                            limit: `$<1-2>`
+                        }
+                    );
+                    if (itemUse == 1) {
+                        usePotion();
+                        grunbeld();
+                    } else if (itemUse == 2) {
+                        useAttackUp();
+                        grunbeld();
+                    }
+                }
+            }
         }
-        if (beelzebubsHealth <= 0) {
-            beelzebubIsAlive = false;
+        if (beelzebubDemon.health <= 0) {
+            beelzebubDemon.isAlive = false;
+            demons.slice(-1, beelzebubDemon);
+            console.log(`${beelzebubDemon.name} Has been checked off the list of demons you are hunting.`);
             console.log("\nUghhh! NO!! How could you defeat me..");
             goBerserk();
-        } else if (healthPoints <= 0) {
-            isAlive = false;
+        } else if (player.health <= 0) {
+            player.isAlive = false;
         }
     }
 }
 
-//Enemy Function 5
 function ganon() {
-    ganonIsAlive = true;
-    let ganonsHealth = 40;
-    let ganonsAttack = Math.floor(Math.random() * 5 + 5);
-    console.log(`\nDid you by chance notice how all the monsters frozen it time around here become drawn to you and Awaken?`);
-    console.log(`Your hatred and rage has awoken me ${welcomeName}, Thank you! Now Let me feast!!!`);
-    while ((ganonsHealth > 0) && (healthPoints > 0)) {
-        let options = readline.keyIn(`\n[1] Attack \n[2] Block\n\n`, { limit: `$<1-2>` });
+    console.log(
+        `\nDid you by chance notice how all the monsters frozen it time around here become drawn to you and Awaken?`
+    );
+    console.log(
+        `Your hatred and rage has awoken me ${player.name}, Thank you! Now Let me feast!!!`
+    );
+    while (ganonDemon.health > 0 && player.health > 0) {
+        let options = readline.keyIn(`\n[1] Attack \n[2] Block\n\n`, {
+            limit: `$<1-2>`,
+        });
         if (options == 1) {
-            ganonsHealth -= gutsAttack;
-            healthPoints -= ganonsAttack;
-            console.log(`\nYou Have dealt ${gutsAttack} damage to Ganon!`);
-            console.log(`Ganon dealt ${ganonsAttack} damage to ${welcomeName}!`);
-            console.log(`\nYour Health is now ${healthPoints}`);
-            console.log(`Ganons Health is now ${ganonsHealth}`);
+            ganonDemon.health -= player.attackPower;
+            player.health -= ganonDemon.attackPower;
+            console.log(`\nYou Have dealt ${player.attackPower} damage to Ganon!`);
+            console.log(
+                `Ganon dealt ${ganonDemon.attackPower} damage to ${player.name}!`
+            );
+            console.log(`\nYour Health is now ${player.health}`);
+            console.log(`Ganons Health is now ${ganonDemon.health}`);
         } else if (options == 2) {
             block();
             console.log("\nYou Blocked the attack, but took chip Damage");
-            console.log(`\nYour Health is now ${healthPoints}`);
+            console.log(`\nYour Health is now ${player.health}`);
         }
-        if (ganonsHealth <= 0) {
-            ganonIsAlive = false;
-            console.log(`\nhahaha I can never Die, I am simply reincarnated in another form. Ill see you again "hero".`);
+        if (ganonDemon.health <= 0) {
+            ganonDemon.isAlive = false;
+            demons.slice(-1, ganonDemon);
+            console.log(`${ganonDemon.name} Has been checked off the list of demons you are hunting.`);
+            console.log(
+                `\nhahaha I can never Die, I am simply reincarnated in another form. Ill see you again "hero".`
+            );
             goBerserk();
-        } else if (healthPoints <= 0) {
-            console.log(`He who wields such power as mine would be a fitting King of this world. Don't you think?..`);
-            isAlive = false;
+        } else if (player.health <= 0) {
+            console.log(
+                `He who wields such power as mine would be a fitting King of this world. Don't you think?..`
+            );
+            player.isAlive = false;
         }
     }
 }
 
-//Enemy Function 6
 function dracula() {
-    draculaIsAlive = true;
-    let draculasHealth = 40;
-    let draculasAttack = Math.floor(Math.random() * 5 + 5);
-    while ((draculasHealth > 0) && (healthPoints > 0)) {
-        let options = readline.keyIn(`\n[1] Attack \n[2] Block\n\n`, { limit: `$<1-2>` });
+    while (draculaDemon.health > 0 && player.health > 0) {
+        let options = readline.keyIn(`\n[1] Attack \n[2] Block\n\n`, {
+            limit: `$<1-2>`,
+        });
         if (options == 1) {
-            draculasHealth -= gutsAttack;
-            healthPoints -= draculasAttack;
-            console.log(`\nYou Have dealt ${gutsAttack} damage to Dracula!`);
-            console.log(`\nDracula dealt ${draculasAttack} damage to ${welcomeName}!`);
-            console.log(`\nYour Health is now ${healthPoints}`);
-            console.log(`\nDraculas Health is now ${draculasHealth}`);
+            draculaDemon.health -= player.attackPower;
+            player.health -= draculaDemon.attackPower;
+            console.log(`\nYou Have dealt ${player.attackPower} damage to Dracula!`);
+            console.log(
+                `Dracula dealt ${draculaDemon.attackPower} damage to ${player.name}!`
+            );
+            console.log(`\nYour Health is now ${player.health}`);
+            console.log(`Draculas Health is now ${draculaDemon.health}`);
         } else if (options == 2) {
             block();
             console.log("\nYou Blocked the attack, but took chip Damage");
-            console.log(`\nYour Health is now ${healthPoints}`);
+            console.log(`\nYour Health is now ${player.health}`);
         }
         if (draculasHealth <= 0) {
             grunbeldIsAlive = false;
+            demons.slice(-1, draculaDemon);
+            console.log(`${draculaDemon.name} Has been checked off the list of demons you are hunting.`);
             console.log("\nUghhh! NO!! How could you defeat me..");
             goBerserk();
-        } else if (healthPoints <= 0) {
-            isAlive = false;
+        } else if (player.health <= 0) {
+            player.isAlive = false;
         }
     }
 }
