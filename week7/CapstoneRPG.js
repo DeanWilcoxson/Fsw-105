@@ -9,7 +9,7 @@ function Player(name, health, weaponOfChoice, attackPower, isAlive) {
     this.isAlive = isAlive;
 }
 Player.prototype.displayStatus = function() {
-    console.log(`${this.name} \nHealth:${this.health} \nWeapon:${this.weapon} \nAttack:${this.attackPower}`);
+    console.log(`\n\n${this.name} \nHealth:${this.health} \nWeapon:${this.weapon} \nAttack:${this.attackPower}`);
 };
 
 function Demons(name, health, attackPower, isAlive) {
@@ -24,7 +24,7 @@ Demons.prototype.displayDemons = function() {
     );
 };
 Demons.prototype.displayBounties = function() {
-    console.log(`${this.name} \n${this.isAlive}`);
+    console.log(`\n${this.name} \nAlive? ${this.isAlive}`);
 };
 
 function Item(title, effect) {
@@ -72,8 +72,6 @@ let draculaDemon = new Demons(
     "Vlad Tepes, Dracula", 50, Math.floor(Math.random() * 5 + 5), true
 );
 demons.push(draculaDemon);
-
-
 //////////////////////////////////////////////////// Main Menu Function And Intro ////////////////////////////////////////////////////
 console.log(`\tAhh! ${player.name}, the name of a true Hero! You have been transported to a distant land.. in a far off dream.. in which the natural order has no place.
 Demons traverse this world, that lies outside of time and space. Your mere presence here is Like a beacon to the damned and all things that lurk in the shadows.
@@ -83,7 +81,7 @@ many that have stood where you stand now, have had the same great makings. Don't
 goBerserk();
 
 function goBerserk() {
-    while (player.health > 0) {
+    while (player.isAlive == true) {
         const options = readline.keyIn(`\n\tMenu: \n[1]Wander \t[2]Status \t[3]Items \t[4]Exit \t[5]Enemies\n\n`, { limit: `$<1-5>` });
         if (options == 1) {
             travel();
@@ -95,7 +93,7 @@ function goBerserk() {
             }
             let useItem = readline.keyIn(`\nWould you like to use an item? \n[1]Yes [2]Not Yet\n\n`, { limit: `$<1-2>` });
             for (item = 0; item < items.length; item++) {
-                if ((items[item] = potion) || (items[item] = armor)) {
+                if ((items[item] === potion) || (items[item] === armor)) {
                     if (useItem == 1) {
                         let itemUse = readline.keyIn(`\n[1] Potion \t[2] Armor \t[3] Menu\n\n`, { limit: `$<1-3>` });
                         if (itemUse == 1) {
@@ -116,7 +114,7 @@ function goBerserk() {
             console.log(
                 `\nYou are a pitiful Weakling! You've seen the terror that is the Darkness, and have fled? You have left the rest of humanity vulnerable.`
             );
-            player.health = 0;
+            player.isAlive = false;
         } else if (options == 5) {
             for (i = 0; i < demons.length; i++) {
                 demons[i].displayBounties();
@@ -127,7 +125,6 @@ function goBerserk() {
         player.isAlive = false;
     }
 }
-
 //////////////////////////////////////////////////// Sub Menu Functions ////////////////////////////////////////////////////
 function usePotion() {
     for (i = 0; i < items.length; i++) {
@@ -137,7 +134,7 @@ function usePotion() {
             player.health += 25;
             items.shift(potion);
             console.log(`\nYou Have Gained 25 HP. Your new HP is: ${player.health}`);
-            console.log(`${potion.title} was removed from your Items`);
+            console.log(`The Potion was removed from your Items`);
         }
     }
 }
@@ -165,33 +162,39 @@ function useAttackUp() {
 }
 
 function travel() {
-    let enemySpawnChance = Math.floor(Math.random() - 1);
-    if (enemySpawnChance < 0.4) {
-        const options = readline.keyIn(`It seems safe around here, Search for Items? \n\t[1]Yes \t[2]No\n\n`, { limit: `$<1-2>` });
-        if (options == 1) {
-            for (i = 0; i < items.length; i++) {
-                if (items[i] !== potion) {
-                    items.push(potion);
-                    console.log(`You have found a Potion!!!`);
-                } else if (items[i] === potion) {
-                    console.log("You already have a potion in your inventory.");
-                    console.log("\nA Demon has noticed you. It's on your trail.");
-                    impendingThreat();
-                }
-            }
-        } else if (options == 2) {
-            goBerserk();
-        }
-    } else if (enemySpawnChance > 0.4) {
+    let enemySpawnChance = Math.floor(Math.random());
+    if (enemySpawnChance < 0.5) {
+        search();
+    } else if (enemySpawnChance > 0.5) {
         console.log("\nA Demon has noticed you. It's on your trail.");
         impendingThreat();
     } else(console.log("You can see nothing for miles."));
 }
 
-function block() {
-    enemyAttack = Math.floor(Math.random() * 5 - 5);
-    player.health -= -enemyAttack;
+function search() {
+    const options = readline.keyIn(`It seems safe around here, Search for Items? \n\t[1]Yes \t[2]No\n\n`, { limit: `$<1-2>` });
+    if (options == 1) {
+        searchChance = Math.floor(Math.random());
+        if (searchChance > 0.7) {
+            for (i = 0; i < items.length; i++) {
+                if (items[i] !== potion) {
+                    items.push(potion);
+                    console.log(`You have found a Potion!!!`);
+                    goBerserk();
+                } else if (items[i] === potion) {
+                    console.log("\nA Demon has noticed you. It's on your trail.");
+                    impendingThreat();
+                }
+            }
+        } else if (searchChance < 0.7) {
+            console.log("Damn, You found Nothing.");
+        }
+    } else if (options == 2) {
+        goBerserk();
+    }
 }
+
+
 //////////////////////////////////////////////////// Enemy Spawn Chance Functions ////////////////////////////////////////////////////
 function impendingThreat() {
     console.log(
@@ -203,12 +206,12 @@ function impendingThreat() {
         demonSpawn();
     } else if (options == 2) {
         let chanceToFlee = Math.random();
-        if (chanceToFlee > 0.5) {
+        if (chanceToFlee >= 0.5) {
             console.log(
                 "You kick in a sewer grate that is nearby, and escape down the tunnel."
             );
             goBerserk();
-        } else if (chanceToFlee < 0.5) {
+        } else if (chanceToFlee <= 0.5) {
             console.log("\nTrying to flee??? Weakling!");
             demonSpawn();
         }
@@ -216,34 +219,39 @@ function impendingThreat() {
 }
 
 function demonSpawn() {
-    for (let demon = 0; demon < demons.length; demon++) {
-        if (demons[demon] == grunbeldDemon) {
+    for (let demon = Math.random(); demon < demons.length; demon++) {
+        if (demons[demon] < 0.99) {
             grunbeldDemon.displayDemons();
             grunbeld();
-        } else if (demons[demon] == zoddDemon) {
+        } else if ((demons[demon] > 1.0) && (demons[demon] < 1.99)) {
             zoddDemon.displayDemons();
             zodd();
-        } else if (demons[demon] == beelzebubDemon) {
+        } else if ((demons[demon] > 2.0) && (demons[demon] < 2.99)) {
             beelzebubDemon.displayDemons();
             beelzebub();
-        } else if (demons[demon] == ganonDemon) {
+        } else if ((demons[demon] > 3.0) && (demons[demon] < 3.99)) {
             ganonDemon.displayDemons();
             ganon();
-        } else if (demons[demon] == draculaDemon) {
+        } else if ((demons[demon] > 4.0) && (demons[demon] < 4.99)) {
             draculaDemon.displayDemons();
             dracula();
-        } else if (demons[demon] == griffithDemon) {
+        } else if ((demons[demon] > 5.0) && (demons[demon] < 5.99)) {
             griffithDemon.displayDemons();
             griffith();
         }
     }
 }
-//////////////////////////////////////////////////// Enemy Functions ////////////////////////////////////////////////////
+//////////////////////////////////////////////////// Battle Functions ////////////////////////////////////////////////////
+function block() {
+    enemyAttack = Math.floor(Math.random() * 5 - 5);
+    player.health -= -enemyAttack;
+}
+
 function grunbeld() {
     console.log(
         `\nI serve the King of Longing. Now, Know your place sacrifice! and DIE!!`
     );
-    while (grunbeldDemon.health > 0 && player.health > 0) {
+    while (grunbeldDemon.isAlive == true) {
         let options = readline.keyIn(`\n[1] Attack \t[2] Block \t[3] Items\n\n`, {
             limit: `$<1-3>`,
         });
@@ -276,21 +284,20 @@ function grunbeld() {
                 }
             }
         }
-        if (grunbeldDemon.health <= 0) {
-            grunbeldDemon.isAlive = false;
-            demons.splice(-1, grunbeldDemon);
-            console.log(`${grunbeldDemon.name} Has been checked off the list of demons you are hunting.`);
-            console.log("\nUghhh! NO!! How could you defeat me..");
-            goBerserk();
-        } else if (player.health <= 0) {
-            player.isAlive = false;
-        }
+    }
+    if (grunbeldDemon.health <= 0) {
+        grunbeldDemon.isAlive = false;
+        console.log(`${grunbeldDemon.name} Has been checked off the list of demons you are hunting.`);
+        console.log("\nUghhh! NO!! How could you defeat me..");
+        goBerserk();
+    } else if (player.health <= 0) {
+        player.isAlive = false;
     }
 }
 
 function zodd() {
     console.log(`\nAmazing!I found someone to do battle with!You cannot flee!You must do battle with me!`);
-    while (zoddDemon.health > 0 && player.health > 0) {
+    while (zoddDemon.isAlive == true) {
         let options = readline.keyIn(`\n[1] Attack \t[2] Block \t[3] Items\n\n`, {
             limit: `$<1-3>`,
         });
@@ -336,7 +343,6 @@ function zodd() {
         );
         console.log("\nNosferatu Zodd flew off.");
         zoddDemon.isAlive = false;
-        demons.slice(-1, zoddDemon);
         console.log(`${zoddDemon.name} Has been checked off the list of demons you are hunting.`);
         goBerserk();
     } else if (player.health <= 0) {
@@ -351,7 +357,7 @@ function griffith() {
     console.log(
         `\nIt Seems you're still struggling to survive? Not for much longer!`
     );
-    while (griffithDemon.health > 0 && player.health > 0) {
+    while (griffithDemon.isAlive == true) {
         let options = readline.keyIn(`\n[1] Attack \n[2] Block \n[3] Items\n\n`, {
             limit: `$<1-3>`,
         });
@@ -394,21 +400,20 @@ function griffith() {
                 }
             }
         }
-        if (griffithDemon.health <= 0) {
-            griffithDemon.isAlive = false;
-            demons.slice(-1, griffithDemon);
-            console.log(`${griffithDemon.name} Has been checked off the list of demons you are hunting.`);
-            console.log("\nUghhh! NO!! How could you defeat me..");
-            goBerserk();
-        } else if (player.health <= 0) {
-            player.isAlive = false;
-            console.log("You were just a cobblestone After all.");
-        }
+    }
+    if (griffithDemon.health <= 0) {
+        griffithDemon.isAlive = false;
+        console.log(`${griffithDemon.name} Has been checked off the list of demons you are hunting.`);
+        console.log("\nUghhh! NO!! How could you defeat me..");
+        goBerserk();
+    } else if (player.health <= 0) {
+        player.isAlive = false;
+        console.log("You were just a cobblestone After all.");
     }
 }
 
 function beelzebub() {
-    while (beelzebubDemon.health > 0 && player.health > 0) {
+    while (beelzebubDemon.isAlive == true) {
         let options = readline.keyIn(`\n[1] Attack \n[2] Block \n[3] Items\n\n`, {
             limit: `$<1-3>`,
         });
@@ -452,15 +457,14 @@ function beelzebub() {
                 }
             }
         }
-        if (beelzebubDemon.health <= 0) {
-            beelzebubDemon.isAlive = false;
-            demons.slice(-1, beelzebubDemon);
-            console.log(`${beelzebubDemon.name} Has been checked off the list of demons you are hunting.`);
-            console.log("\nUghhh! NO!! How could you defeat me..");
-            goBerserk();
-        } else if (player.health <= 0) {
-            player.isAlive = false;
-        }
+    }
+    if (beelzebubDemon.health <= 0) {
+        beelzebubDemon.isAlive = false;
+        console.log(`${beelzebubDemon.name} Has been checked off the list of demons you are hunting.`);
+        console.log("\nUghhh! NO!! How could you defeat me..");
+        goBerserk();
+    } else if (player.health <= 0) {
+        player.isAlive = false;
     }
 }
 
@@ -471,9 +475,9 @@ function ganon() {
     console.log(
         `Your hatred and rage has awoken me ${player.name}, Thank you! Now Let me feast!!!`
     );
-    while (ganonDemon.health > 0 && player.health > 0) {
-        let options = readline.keyIn(`\n[1] Attack \n[2] Block\n\n`, {
-            limit: `$<1-2>`,
+    while (ganonDemon.isAlive == true) {
+        let options = readline.keyIn(`\n[1] Attack \n[2] Block \n[3] Items\n\n`, {
+            limit: `$<1-3>`,
         });
         if (options == 1) {
             ganonDemon.health -= player.attackPower;
@@ -488,28 +492,51 @@ function ganon() {
             block();
             console.log("\nYou Blocked the attack, but took chip Damage");
             console.log(`\nYour Health is now ${player.health}`);
+        } else if (options == 3) {
+            for (i = 0; i < items.length; i++) {
+                items[i].displayItems();
+
+                let useItem = readline.keyIn(
+                    `\nWould you like to use an item? \n[1] Yes [2] No\n\n `, {
+                        limit: `$<1-2>`
+                    }
+                );
+                if (useItem == 1) {
+                    let itemUse = readline.keyIn(
+                        `\n[1] Healing Potion(Gain 25 Health) \n[2] Berserker Armor(Raise Attack Up, but lose Health) \n\n`, {
+                            limit: `$<1-2>`
+                        }
+                    );
+                    if (itemUse == 1) {
+                        usePotion();
+                        grunbeld();
+                    } else if (itemUse == 2) {
+                        useAttackUp();
+                        grunbeld();
+                    }
+                }
+            }
         }
-        if (ganonDemon.health <= 0) {
-            ganonDemon.isAlive = false;
-            demons.slice(-1, ganonDemon);
-            console.log(`${ganonDemon.name} Has been checked off the list of demons you are hunting.`);
-            console.log(
-                `\nhahaha I can never Die, I am simply reincarnated in another form. Ill see you again "hero".`
-            );
-            goBerserk();
-        } else if (player.health <= 0) {
-            console.log(
-                `He who wields such power as mine would be a fitting King of this world. Don't you think?..`
-            );
-            player.isAlive = false;
-        }
+    }
+    if (ganonDemon.health <= 0) {
+        ganonDemon.isAlive = false;
+        console.log(`${ganonDemon.name} Has been checked off the list of demons you are hunting.`);
+        console.log(
+            `\nHaHaHa! I can never Die! I am simply reincarnated in another form. I'll see you again "hero", In another Life.`
+        );
+        goBerserk();
+    } else if (player.health <= 0) {
+        console.log(
+            `He who wields such power as mine would be a fitting King of this world. Don't you think?..`
+        );
+        player.isAlive = false;
     }
 }
 
 function dracula() {
-    while (draculaDemon.health > 0 && player.health > 0) {
-        let options = readline.keyIn(`\n[1] Attack \n[2] Block\n\n`, {
-            limit: `$<1-2>`,
+    while (draculaDemon.isAlive == true) {
+        let options = readline.keyIn(`\n[1] Attack \n[2] Block \n[3] Items\n\n`, {
+            limit: `$<1-3>`,
         });
         if (options == 1) {
             draculaDemon.health -= player.attackPower;
@@ -524,15 +551,38 @@ function dracula() {
             block();
             console.log("\nYou Blocked the attack, but took chip Damage");
             console.log(`\nYour Health is now ${player.health}`);
+        } else if (options == 3) {
+            for (i = 0; i < items.length; i++) {
+                items[i].displayItems();
+
+                let useItem = readline.keyIn(
+                    `\nWould you like to use an item? \n[1] Yes [2] No\n\n `, {
+                        limit: `$<1-2>`
+                    }
+                );
+                if (useItem == 1) {
+                    let itemUse = readline.keyIn(
+                        `\n[1] Healing Potion(Gain 25 Health) \n[2] Berserker Armor(Raise Attack Up, but lose Health) \n\n`, {
+                            limit: `$<1-2>`
+                        }
+                    );
+                    if (itemUse == 1) {
+                        usePotion();
+                        grunbeld();
+                    } else if (itemUse == 2) {
+                        useAttackUp();
+                        grunbeld();
+                    }
+                }
+            }
         }
-        if (draculasHealth <= 0) {
-            grunbeldIsAlive = false;
-            demons.slice(-1, draculaDemon);
-            console.log(`${draculaDemon.name} Has been checked off the list of demons you are hunting.`);
-            console.log("\nUghhh! NO!! How could you defeat me..");
-            goBerserk();
-        } else if (player.health <= 0) {
-            player.isAlive = false;
-        }
+    }
+    if (draculaDemon.health <= 0) {
+        draculaDemon.isAlive = false;
+        console.log(`${draculaDemon.name} Has been checked off the list of demons you are hunting.`);
+        console.log("\nUghhh! NO!! How could you defeat me..");
+        goBerserk();
+    } else if (player.health <= 0) {
+        player.isAlive = false;
     }
 }
