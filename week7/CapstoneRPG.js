@@ -162,10 +162,10 @@ function useAttackUp() {
 }
 
 function travel() {
-    let enemySpawnChance = Math.floor(Math.random());
-    if (enemySpawnChance < 0.5) {
+    let enemySpawnChance = Math.random();
+    if (enemySpawnChance <= 0.2) {
         search();
-    } else if (enemySpawnChance > 0.5) {
+    } else if (enemySpawnChance >= 0.5) {
         console.log("\nA Demon has noticed you. It's on your trail.");
         impendingThreat();
     } else(console.log("You can see nothing for miles."));
@@ -174,8 +174,8 @@ function travel() {
 function search() {
     const options = readline.keyIn(`It seems safe around here, Search for Items? \n\t[1]Yes \t[2]No\n\n`, { limit: `$<1-2>` });
     if (options == 1) {
-        searchChance = Math.floor(Math.random());
-        if (searchChance > 0.7) {
+        let searchChance = Math.random();
+        if (searchChance <= 0.3) {
             for (i = 0; i < items.length; i++) {
                 if (items[i] !== potion) {
                     items.push(potion);
@@ -186,11 +186,11 @@ function search() {
                     impendingThreat();
                 }
             }
-        } else if (searchChance < 0.7) {
+        } else if (searchChance >= 0.3) {
             console.log("Damn, You found Nothing.");
         }
     } else if (options == 2) {
-        goBerserk();
+        demonSpawn();
     }
 }
 
@@ -219,7 +219,7 @@ function impendingThreat() {
 }
 
 function demonSpawn() {
-    for (let demon = Math.random(); demon < demons.length; demon++) {
+    for (let demon = Math.random(); demon < demons.length; demon++ + 0.5) {
         if (demons[demon] < 0.99) {
             grunbeldDemon.displayDemons();
             grunbeld();
