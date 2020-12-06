@@ -84,7 +84,7 @@ goBerserk();
 
 function goBerserk() {
     while (player.health > 0) {
-        const options = readline.keyIn(`\n\tMenu: \n[1]Wander \t[2]Status \t[3]Items \t[4]Exit \t[5]Bounties\n\n`, { limit: `$<1-5>` });
+        const options = readline.keyIn(`\n\tMenu: \n[1]Wander \t[2]Status \t[3]Items \t[4]Exit \t[5]Enemies\n\n`, { limit: `$<1-5>` });
         if (options == 1) {
             travel();
         } else if (options == 2) {
