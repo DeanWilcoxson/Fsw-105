@@ -1,45 +1,8 @@
 /* jshint esversion: 6 */
 const readline = require("readline-sync");
-//////////////////////////////////////////////////// Constructor Functions & Prototypes ////////////////////////////////////////////////////
-function Player(name, health, weaponOfChoice, attackPower, isAlive) {
-    this.name = name;
-    this.health = health;
-    this.weapon = weaponOfChoice;
-    this.attackPower = attackPower;
-    this.isAlive = isAlive;
-}
-Player.prototype.displayStatus = function() {
-    console.log(player);
-};
-
-function Demons(name, health, attackPower, isAlive) {
-    this.name = name;
-    this.health = health;
-    this.attackPower = attackPower;
-    this.isAlive = isAlive;
-}
-Demons.prototype.displayDemons = function() {
-    console.log(
-        `${this.name} Has Appeared! \nHealth:${this.health} \nAttack:${this.attackPower}`
-    );
-};
-Demons.prototype.displayBounties = function() {
-    if (demons[i].isAlive == true) {
-        console.log(demons[i]);
-    } else if (demons[i].isAlive == false) {
-        console.log(demons[i].name + " Has Been Defeated.");
-        console.log(demons[i].isAlive);
-    }
-};
-
-function Item(title, effect) {
-    this.title = title;
-    this.effect = effect;
-}
-Item.prototype.displayItems = function() {
-    console.log(items[i]);
-};
 ////////////////////////////////////////////////////  Global Variables ////////////////////////////////////////////////////
+let items = [];
+let demons = [];
 let player = new Player(
     readline.question(`\n\tWelcome Struggler, \nIt seems you have been freed from the Mortal-Coil! 
 Fate has delivered you from Human Inevitability (Death). \nWhat is your Name? So I may address you properly Struggler.\n\n`),
@@ -48,8 +11,7 @@ Fate has delivered you from Human Inevitability (Death). \nWhat is your Name? So
     Math.floor(Math.random() * 20 + 5),
     true
 );
-let items = [];
-let demons = [];
+
 let armor = new Item("Berserker Armor ", "(Gain Attack Power, But Lose Health)");
 let potion = new Item("Potion ", "(Adds 25 Health)");
 items.push(potion, armor);
@@ -77,6 +39,49 @@ let draculaDemon = new Demons(
     "Vlad Tepes, Dracula", 50, Math.floor(Math.random() * 5 + 5), true
 );
 demons.push(draculaDemon);
+//////////////////////////////////////////////////// Constructor Functions & Prototypes ////////////////////////////////////////////////////
+function Player(name, health, weaponOfChoice, attackPower, isAlive) {
+    this.name = name;
+    this.health = health;
+    this.weapon = weaponOfChoice;
+    this.attackPower = attackPower;
+    this.isAlive = isAlive;
+}
+Player.prototype.displayStatus = function() {
+    console.log(player);
+};
+
+function Demons(name, health, attackPower, isAlive) {
+    this.name = name;
+    this.health = health;
+    this.attackPower = attackPower;
+    this.isAlive = isAlive;
+}
+Demons.prototype.displayDemons = function() {
+    console.log(
+        `${this.name} Has Appeared! \nHealth:${this.health} \nAttack:${this.attackPower}`
+    );
+};
+Demons.prototype.displayBounties = function() {
+    for (let i = 0; i < demons.length; i++) {
+        if (demons[i].isAlive === true) {
+            console.log(demons[i]);
+        } else if (demons[i].isAlive === false) {
+            console.log(demons[i].name + " Has Been Defeated.");
+            console.log(demons[i].isAlive);
+        }
+    }
+};
+
+function Item(title, effect) {
+    this.title = title;
+    this.effect = effect;
+}
+Item.prototype.displayItems = function() {
+    for (let i = 0; i < items.length; i++) {
+        console.log(items[i]);
+    }
+};
 //////////////////////////////////////////////////// Main Menu Function And Intro ////////////////////////////////////////////////////
 console.log(`\tAhh! ${player.name}, the name of a true Hero! You have been transported to a distant land.. in a far off dream.. in which the natural order has no place.
 Demons traverse this world, that lies outside of time and space. Your mere presence here is Like a beacon to the damned and all things that lurk in the shadows.
@@ -86,18 +91,16 @@ many that have stood where you stand now, have had the same great makings. Don't
 goBerserk();
 
 function goBerserk() {
-    while (player.isAlive == true) {
+    while (player.isAlive === true) {
         const options = readline.keyIn(`\n\tMenu: \n[1]Wander \t[2]Status \t[3]Items \t[4]Exit \t[5]Enemies\n\n`, { limit: `$<1-5>` });
         if (options == 1) {
             travel();
         } else if (options == 2) {
             player.displayStatus();
         } else if (options == 3) {
-            for (i = 0; i < items.length; i++) {
-                items[i].displayItems(i);
-            }
+            items.displayItems();
             let useItem = readline.keyIn(`\nWould you like to use an item? \n[1]Yes [2]Not Yet\n\n`, { limit: `$<1-2>` });
-            for (item = 0; item < items.length; item++) {
+            for (let item = 0; item < items.length; item++) {
                 if ((items[item] === potion) || (items[item] === armor)) {
                     if (useItem == 1) {
                         let itemUse = readline.keyIn(`\n[1] Potion \t[2] Armor \t[3] Menu\n\n`, { limit: `$<1-3>` });
@@ -121,7 +124,7 @@ function goBerserk() {
             );
             player.isAlive = false;
         } else if (options == 5) {
-            for (i = 0; i < demons.length; i++) {
+            for (let i = 0; i < demons.length; i++) {
                 demons[i].displayBounties();
             }
         }
@@ -132,7 +135,7 @@ function goBerserk() {
 }
 //////////////////////////////////////////////////// Sub Menu Functions ////////////////////////////////////////////////////
 function usePotion() {
-    for (i = 0; i < items.length; i++) {
+    for (let i = 0; i < items.length; i++) {
         if (items[i] !== potion) {
             console.log("You have already used your Potion");
         } else if (items[i] === potion) {
@@ -145,7 +148,7 @@ function usePotion() {
 }
 
 function useAttackUp() {
-    for (i = 0; i < items.length; i++) {
+    for (let i = 0; i < items.length; i++) {
         if (items[i] !== armor) {
             console.log("You are already wearing your armor!");
         } else if (items[i] === armor) {
@@ -181,7 +184,7 @@ function search() {
     if (options == 1) {
         let searchChance = Math.random();
         if (searchChance <= 0.3) {
-            for (i = 0; i < items.length; i++) {
+            for (let i = 0; i < items.length; i++) {
                 if (items[i] !== potion) {
                     items.push(potion);
                     console.log(`You have found a Potion!!!`);
@@ -247,12 +250,12 @@ function demonSpawn() {
 }
 //////////////////////////////////////////////////// Battle Functions ////////////////////////////////////////////////////
 function block() {
-    enemyAttack = Math.floor(Math.random() * 5 - 5);
+    let enemyAttack = Math.floor(Math.random() * 5 - 5);
     player.health -= -enemyAttack;
 }
 
 function grunbeld() {
-    while (grunbeldDemon.isAlive == true) {
+    while (grunbeldDemon.isAlive === true) {
         console.log(`\nI serve the King of Longing. Now, Know your place sacrifice! and DIE!!`);
         let options = readline.keyIn(`\n[1] Attack \t[2] Block \t[3] Items\n\n`, {
             limit: `$<1-3>`,
@@ -271,7 +274,7 @@ function grunbeld() {
             console.log("\nYou Blocked the attack, but took chip Damage");
             console.log(`\nYour Health is now ${player.health}`);
         } else if (options == 3) {
-            for (i = 0; i < items.length; i++) {
+            for (let i = 0; i < items.length; i++) {
                 items[i].displayItems();
             }
             let useItem = readline.keyIn(`\nWould you like to use an item? \n[1] Yes [2] No\n\n `, { limit: `$<1-2>` });
@@ -301,7 +304,7 @@ function grunbeld() {
 
 function zodd() {
     console.log(`\nAmazing!I found someone to do battle with!You cannot flee!You must do battle with me!`);
-    while (zoddDemon.isAlive == true) {
+    while (zoddDemon.isAlive === true) {
         let options = readline.keyIn(`\n[1] Attack \t[2] Block \t[3] Items\n\n`, {
             limit: `$<1-3>`,
         });
@@ -320,7 +323,7 @@ function zodd() {
                 "\nIn the past 50 years, not a single warrior has been capable of defending themselves from my attack, Except you."
             );
         } else if (options == 3) {
-            for (i = 0; i < items.length; i++) {
+            for (let i = 0; i < items.length; i++) {
                 items[i].displayItems();
                 let useItem = readline.keyIn(`\nWould you like to use an item? \n[1] Yes [2] No\n\n `, { limit: `$<1-2>` });
                 if (useItem == 1) {
@@ -363,7 +366,7 @@ function griffith() {
     console.log(
         `\nIt Seems you're still struggling to survive? Not for much longer!`
     );
-    while (griffithDemon.isAlive == true) {
+    while (griffithDemon.isAlive === true) {
         let options = readline.keyIn(`\n[1] Attack \n[2] Block \n[3] Items\n\n`, {
             limit: `$<1-3>`,
         });
@@ -381,7 +384,7 @@ function griffith() {
             console.log("\nYou Blocked the attack, but took chip Damage");
             console.log(`\nYour Health is now ${player.health}`);
         } else if (options == 3) {
-            for (i = 0; i < items.length; i++) {
+            for (let i = 0; i < items.length; i++) {
                 items[i].displayItems();
                 let useItem = readline.keyIn(
                     `\nWould you like to use an item? \n[1] Yes [2] No\n\n `, {
@@ -421,7 +424,7 @@ function griffith() {
 }
 
 function beelzebub() {
-    while (beelzebubDemon.isAlive == true) {
+    while (beelzebubDemon.isAlive === true) {
         let options = readline.keyIn(`\n[1] Attack \n[2] Block \n[3] Items\n\n`, {
             limit: `$<1-3>`,
         });
@@ -441,7 +444,7 @@ function beelzebub() {
             console.log("\nYou Blocked the attack, but took chip Damage");
             console.log(`\nYour Health is now ${player.health}`);
         } else if (options == 3) {
-            for (i = 0; i < items.length; i++) {
+            for (let i = 0; i < items.length; i++) {
                 items[i].displayItems();
 
                 let useItem = readline.keyIn(
@@ -485,7 +488,7 @@ function ganon() {
     console.log(
         `Your hatred and rage has awoken me ${player.name}, Thank you! Now Let me feast!!!`
     );
-    while (ganonDemon.isAlive == true) {
+    while (ganonDemon.isAlive === true) {
         let options = readline.keyIn(`\n[1] Attack \n[2] Block \n[3] Items\n\n`, {
             limit: `$<1-3>`,
         });
@@ -503,7 +506,7 @@ function ganon() {
             console.log("\nYou Blocked the attack, but took chip Damage");
             console.log(`\nYour Health is now ${player.health}`);
         } else if (options == 3) {
-            for (i = 0; i < items.length; i++) {
+            for (let i = 0; i < items.length; i++) {
                 items[i].displayItems();
 
                 let useItem = readline.keyIn(
@@ -546,7 +549,7 @@ function ganon() {
 }
 
 function dracula() {
-    while (draculaDemon.isAlive == true) {
+    while (draculaDemon.isAlive === true) {
         let options = readline.keyIn(`\n[1] Attack \n[2] Block \n[3] Items\n\n`, {
             limit: `$<1-3>`,
         });
@@ -564,7 +567,7 @@ function dracula() {
             console.log("\nYou Blocked the attack, but took chip Damage");
             console.log(`\nYour Health is now ${player.health}`);
         } else if (options == 3) {
-            for (i = 0; i < items.length; i++) {
+            for (let i = 0; i < items.length; i++) {
                 items[i].displayItems();
 
                 let useItem = readline.keyIn(
