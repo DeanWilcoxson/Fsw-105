@@ -224,19 +224,19 @@ function impendingThreat() {
 
 function demonSpawn() {
     for (let demon = Math.floor(Math.random() * demons.length + 0.5); demon < demons.length; demon++) {
-        if (demon > 0.1) {
+        if (demon < 0.1) {
             grunbeldDemon.displayDemons();
             grunbeld();
-        } else if (demon > 0.3) {
+        } else if (demon < 0.3) {
             zoddDemon.displayDemons();
             zodd();
-        } else if (demon > 0.5) {
+        } else if (demon < 0.5) {
             beelzebubDemon.displayDemons();
             beelzebub();
-        } else if (demon > 0.7) {
+        } else if (demon < 0.7) {
             ganonDemon.displayDemons();
             ganon();
-        } else if (demon > 0.9) {
+        } else if (demon < 0.9) {
             draculaDemon.displayDemons();
             dracula();
         } else if (demons === []) {
