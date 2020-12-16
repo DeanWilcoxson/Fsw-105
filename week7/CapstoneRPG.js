@@ -12,31 +12,52 @@ Fate has delivered you from Human Inevitability (Death). \nWhat is your Name? So
     true
 );
 
-let armor = new Item("Berserker Armor ", "(Gain Attack Power, But Lose Health)");
+let armor = new Item(
+    "Berserker Armor ",
+    "(Gain Attack Power, But Lose Health)"
+);
 let potion = new Item("Potion ", "(Adds 25 Health)");
 items.push(potion, armor);
 let grunbeldDemon = new Demons(
-    "Grunbeld, The Great Flame Dragon", 50, Math.floor(Math.random() * 5 + 5), true
+    "Grunbeld, The Great Flame Dragon",
+    50,
+    Math.floor(Math.random() * 5 + 5),
+    true
 );
 demons.push(grunbeldDemon);
 let zoddDemon = new Demons(
-    "Nosferatu Zodd, The Immortal", 75, Math.floor(Math.random() * 5 + 5), true
+    "Nosferatu Zodd, The Immortal",
+    75,
+    Math.floor(Math.random() * 5 + 5),
+    true
 );
 demons.push(zoddDemon);
 let griffithDemon = new Demons(
-    "Griffith, King of Longing", 100, Math.floor(Math.random() * 5 + 5), true
+    "Griffith, King of Longing",
+    100,
+    Math.floor(Math.random() * 5 + 5),
+    true
 );
 demons.push(griffithDemon);
 let beelzebubDemon = new Demons(
-    "Beelzebub, Lord of The Flies", 50, Math.floor(Math.random() * 5 + 5), true
+    "Beelzebub, Lord of The Flies",
+    50,
+    Math.floor(Math.random() * 5 + 5),
+    true
 );
 demons.push(beelzebubDemon);
 let ganonDemon = new Demons(
-    "Ganon, The Calamity", 50, Math.floor(Math.random() * 5 + 5), true
+    "Ganon, The Calamity",
+    50,
+    Math.floor(Math.random() * 5 + 5),
+    true
 );
 demons.push(ganonDemon);
 let draculaDemon = new Demons(
-    "Vlad Tepes, Dracula", 50, Math.floor(Math.random() * 5 + 5), true
+    "Vlad Tepes, Dracula",
+    50,
+    Math.floor(Math.random() * 5 + 5),
+    true
 );
 demons.push(draculaDemon);
 //////////////////////////////////////////////////// Constructor Functions & Prototypes ////////////////////////////////////////////////////
@@ -63,14 +84,7 @@ Demons.prototype.displayDemons = function() {
     );
 };
 Demons.prototype.displayBounties = function() {
-    for (let i = 0; i < demons.length; i++) {
-        if (demons[i].isAlive === true) {
-            console.log(demons[i]);
-        } else if (demons[i].isAlive === false) {
-            console.log(demons[i].name + " Has Been Defeated.");
-            console.log(demons[i].isAlive);
-        }
-    }
+    console.log(demons);
 };
 
 function Item(title, effect) {
@@ -78,9 +92,7 @@ function Item(title, effect) {
     this.effect = effect;
 }
 Item.prototype.displayItems = function() {
-    for (let i = 0; i < items.length; i++) {
-        console.log(items[i]);
-    }
+    console.log(items);
 };
 //////////////////////////////////////////////////// Main Menu Function And Intro ////////////////////////////////////////////////////
 console.log(`\tAhh! ${player.name}, the name of a true Hero! You have been transported to a distant land.. in a far off dream.. in which the natural order has no place.
@@ -92,18 +104,32 @@ goBerserk();
 
 function goBerserk() {
     while (player.isAlive === true) {
-        const options = readline.keyIn(`\n\tMenu: \n[1]Wander \t[2]Status \t[3]Items \t[4]Exit \t[5]Enemies\n\n`, { limit: `$<1-5>` });
+        const options = readline.keyIn(
+            `\n\tMenu: \n[1]Wander \t[2]Status \t[3]Items \t[4]Exit \t[5]Enemies\n\n`, {
+                limit: `$<1-5>`
+            }
+        );
         if (options == 1) {
             travel();
         } else if (options == 2) {
             player.displayStatus();
         } else if (options == 3) {
-            items.displayItems();
-            let useItem = readline.keyIn(`\nWould you like to use an item? \n[1]Yes [2]Not Yet\n\n`, { limit: `$<1-2>` });
+            for (let i = 0; i < items.length; i++) {
+                items[i].displayItems();
+            }
+            let useItem = readline.keyIn(
+                `\nWould you like to use an item? \n[1]Yes [2]Not Yet\n\n`, {
+                    limit: `$<1-2>`
+                }
+            );
             for (let item = 0; item < items.length; item++) {
-                if ((items[item] === potion) || (items[item] === armor)) {
+                if (items[item] === potion || items[item] === armor) {
                     if (useItem == 1) {
-                        let itemUse = readline.keyIn(`\n[1] Potion \t[2] Armor \t[3] Menu\n\n`, { limit: `$<1-3>` });
+                        let itemUse = readline.keyIn(
+                            `\n[1] Potion \t[2] Armor \t[3] Menu\n\n`, {
+                                limit: `$<1-3>`
+                            }
+                        );
                         if (itemUse == 1) {
                             usePotion();
                         } else if (itemUse == 2) {
@@ -114,7 +140,7 @@ function goBerserk() {
                     } else if (useItem == 2) {
                         goBerserk();
                     }
-                } else if ((items[item] !== potion) || (items[item] !== armor)) {
+                } else if (items[item] !== potion || items[item] !== armor) {
                     console.log(`No items in the Inventory.`);
                 }
             }
@@ -171,16 +197,20 @@ function useAttackUp() {
 
 function travel() {
     let enemySpawnChance = Math.random();
-    if (enemySpawnChance <= 0.2) {
+    if (enemySpawnChance <= 0.4) {
         search();
-    } else if (enemySpawnChance >= 0.5) {
+    } else if (enemySpawnChance >= 0.4) {
         console.log("\nA Demon has noticed you. It's on your trail.");
         impendingThreat();
-    } else(console.log("You can see nothing for miles."));
+    } else console.log("You can see nothing for miles.");
 }
 
 function search() {
-    const options = readline.keyIn(`It seems safe around here, Search for Items? \n\t[1]Yes \t[2]No\n\n`, { limit: `$<1-2>` });
+    const options = readline.keyIn(
+        `It seems safe around here, Search for Items? \n\t[1]Yes \t[2]No\n\n`, {
+            limit: `$<1-2>`
+        }
+    );
     if (options == 1) {
         let searchChance = Math.random();
         if (searchChance <= 0.3) {
@@ -201,16 +231,21 @@ function search() {
     }
 }
 
-
 //////////////////////////////////////////////////// Enemy Spawn Chance Functions ////////////////////////////////////////////////////
 function impendingThreat() {
     console.log(
         "There are only two choices. Draw First blood, or.. try to make a break for it and hope that it cant fly."
     );
-    let options = readline.keyIn(`\n\t\n[1] Struggle and Fight the Demon \t[2] Run\n\n`, { limit: `$<1-2>` });
+    let options = readline.keyIn(
+        `\n\t\n[1] Struggle and Fight the Demon \t[2] Run\n\n`, {
+            limit: `$<1-2>`
+        }
+    );
     if (options == 1) {
-        console.log(`\nYou lunge toward the Demon for a preemptive strike! Hyahhhh!!!!`);
         demonSpawn();
+        console.log(
+            `\nYou lunge toward the Demon for a preemptive strike! Hyahhhh!!!!`
+        );
     } else if (options == 2) {
         let chanceToFlee = Math.random();
         if (chanceToFlee >= 0.5) {
@@ -226,23 +261,24 @@ function impendingThreat() {
 }
 
 function demonSpawn() {
-    for (let demon = Math.floor(Math.random() * demons.length + 0.5); demon < demons.length; demon++) {
-        if (demon < 0.1) {
+    for (
+        let demon = Math.floor(Math.random()); demon < demons.length; demon++) {
+        if (demon <= 0.2) {
             grunbeldDemon.displayDemons();
             grunbeld();
-        } else if (demon < 0.3) {
+        } else if ((demon > 0.2) && (demon <= 0.35)) {
             zoddDemon.displayDemons();
             zodd();
-        } else if (demon < 0.5) {
+        } else if ((demon > 0.36) && (demon <= 0.5)) {
             beelzebubDemon.displayDemons();
             beelzebub();
-        } else if (demon < 0.7) {
+        } else if ((demon > 0.5) && (demon <= 0.7)) {
             ganonDemon.displayDemons();
             ganon();
-        } else if (demon < 0.9) {
+        } else if ((demon > 0.7) && (demon <= 0.85)) {
             draculaDemon.displayDemons();
             dracula();
-        } else if (demons === []) {
+        } else if (demons >= 0.85) {
             griffithDemon.displayDemons();
             griffith();
         }
@@ -256,7 +292,9 @@ function block() {
 
 function grunbeld() {
     while (grunbeldDemon.isAlive === true) {
-        console.log(`\nI serve the King of Longing. Now, Know your place sacrifice! and DIE!!`);
+        console.log(
+            `\nI serve the King of Longing. Now, Know your place sacrifice! and DIE!!`
+        );
         let options = readline.keyIn(`\n[1] Attack \t[2] Block \t[3] Items\n\n`, {
             limit: `$<1-3>`,
         });
@@ -277,9 +315,15 @@ function grunbeld() {
             for (let i = 0; i < items.length; i++) {
                 items[i].displayItems();
             }
-            let useItem = readline.keyIn(`\nWould you like to use an item? \n[1] Yes [2] No\n\n `, { limit: `$<1-2>` });
+            let useItem = readline.keyIn(
+                `\nWould you like to use an item? \n[1] Yes [2] No\n\n `, {
+                    limit: `$<1-2>`
+                }
+            );
             if (useItem == 1) {
-                let itemUse = readline.keyIn(`\n[1] Potion \t[2] Armor \n\n`, { limit: `$<1-2>` });
+                let itemUse = readline.keyIn(`\n[1] Potion \t[2] Armor \n\n`, {
+                    limit: `$<1-2>`,
+                });
                 if (itemUse == 1) {
                     usePotion();
                     grunbeld();
@@ -291,7 +335,9 @@ function grunbeld() {
         }
         if (grunbeldDemon.health <= 0) {
             grunbeldDemon.isAlive = false;
-            console.log(`${grunbeldDemon.name} Has been checked off the list of demons you are hunting.`);
+            console.log(
+                `${grunbeldDemon.name} Has been checked off the list of demons you are hunting.`
+            );
             console.log("\nUghhh! NO!! How could you defeat me..");
             console.log(player);
             console.log(grunbeldDemon);
@@ -303,7 +349,9 @@ function grunbeld() {
 }
 
 function zodd() {
-    console.log(`\nAmazing!I found someone to do battle with!You cannot flee!You must do battle with me!`);
+    console.log(
+        `\nAmazing!I found someone to do battle with!You cannot flee!You must do battle with me!`
+    );
     while (zoddDemon.isAlive === true) {
         let options = readline.keyIn(`\n[1] Attack \t[2] Block \t[3] Items\n\n`, {
             limit: `$<1-3>`,
@@ -325,11 +373,17 @@ function zodd() {
         } else if (options == 3) {
             for (let i = 0; i < items.length; i++) {
                 items[i].displayItems();
-                let useItem = readline.keyIn(`\nWould you like to use an item? \n[1] Yes [2] No\n\n `, { limit: `$<1-2>` });
-                if (useItem == 1) {
-                    let itemUse = readline.keyIn(`\n[1] Healing Potion(Gain 25 Health) \n[2] Berserker Armor(Raise Attack Up, but lose Health) \n\n`, {
+                let useItem = readline.keyIn(
+                    `\nWould you like to use an item? \n[1] Yes [2] No\n\n `, {
                         limit: `$<1-2>`
-                    });
+                    }
+                );
+                if (useItem == 1) {
+                    let itemUse = readline.keyIn(
+                        `\n[1] Healing Potion(Gain 25 Health) \n[2] Berserker Armor(Raise Attack Up, but lose Health) \n\n`, {
+                            limit: `$<1-2>`,
+                        }
+                    );
                     if (itemUse == 1) {
                         usePotion();
                         zodd();
@@ -349,7 +403,9 @@ function zodd() {
                 "\nHahaha! Mortal, You bear the brand of the sacrificial offering. There is no need for me to kill you, for you will surely meet your end Soon!"
             );
             console.log("\nNosferatu Zodd flew off.");
-            console.log(`${zoddDemon.name} Has been checked off the list of demons you are hunting.`);
+            console.log(
+                `${zoddDemon.name} Has been checked off the list of demons you are hunting.`
+            );
             console.log(player);
             console.log(zoddDemon);
             goBerserk();
@@ -388,13 +444,13 @@ function griffith() {
                 items[i].displayItems();
                 let useItem = readline.keyIn(
                     `\nWould you like to use an item? \n[1] Yes [2] No\n\n `, {
-                        limit: `$<1-2>`
+                        limit: `$<1-2>`,
                     }
                 );
                 if (useItem == 1) {
                     let itemUse = readline.keyIn(
                         `\n[1] Healing Potion(Gain 25 Health) \n[2] Berserker Armor(Raise Attack Up, but lose Health) \n\n`, {
-                            limit: `$<1-2>`
+                            limit: `$<1-2>`,
                         }
                     );
                     if (itemUse == 1) {
@@ -411,7 +467,9 @@ function griffith() {
         }
         if (griffithDemon.health <= 0) {
             griffithDemon.isAlive = false;
-            console.log(`${griffithDemon.name} Has been checked off the list of demons you are hunting.`);
+            console.log(
+                `${griffithDemon.name} Has been checked off the list of demons you are hunting.`
+            );
             console.log("\nUghhh! NO!! How could you defeat me..");
             console.log(player);
             console.log(griffithDemon);
@@ -449,13 +507,13 @@ function beelzebub() {
 
                 let useItem = readline.keyIn(
                     `\nWould you like to use an item? \n[1] Yes [2] No\n\n `, {
-                        limit: `$<1-2>`
+                        limit: `$<1-2>`,
                     }
                 );
                 if (useItem == 1) {
                     let itemUse = readline.keyIn(
                         `\n[1] Healing Potion(Gain 25 Health) \n[2] Berserker Armor(Raise Attack Up, but lose Health) \n\n`, {
-                            limit: `$<1-2>`
+                            limit: `$<1-2>`,
                         }
                     );
                     if (itemUse == 1) {
@@ -470,7 +528,9 @@ function beelzebub() {
         }
         if (beelzebubDemon.health <= 0) {
             beelzebubDemon.isAlive = false;
-            console.log(`${beelzebubDemon.name} Has been checked off the list of demons you are hunting.`);
+            console.log(
+                `${beelzebubDemon.name} Has been checked off the list of demons you are hunting.`
+            );
             console.log("\nUghhh! NO!! How could you defeat me..");
             console.log(player);
             console.log(beelzebubDemon);
@@ -511,13 +571,13 @@ function ganon() {
 
                 let useItem = readline.keyIn(
                     `\nWould you like to use an item? \n[1] Yes [2] No\n\n `, {
-                        limit: `$<1-2>`
+                        limit: `$<1-2>`,
                     }
                 );
                 if (useItem == 1) {
                     let itemUse = readline.keyIn(
                         `\n[1] Healing Potion(Gain 25 Health) \n[2] Berserker Armor(Raise Attack Up, but lose Health) \n\n`, {
-                            limit: `$<1-2>`
+                            limit: `$<1-2>`,
                         }
                     );
                     if (itemUse == 1) {
@@ -532,7 +592,9 @@ function ganon() {
         }
         if (ganonDemon.health <= 0) {
             ganonDemon.isAlive = false;
-            console.log(`${ganonDemon.name} Has been checked off the list of demons you are hunting.`);
+            console.log(
+                `${ganonDemon.name} Has been checked off the list of demons you are hunting.`
+            );
             console.log(player);
             console.log(ganonDemon);
             console.log(
@@ -572,13 +634,13 @@ function dracula() {
 
                 let useItem = readline.keyIn(
                     `\nWould you like to use an item? \n[1] Yes [2] No\n\n `, {
-                        limit: `$<1-2>`
+                        limit: `$<1-2>`,
                     }
                 );
                 if (useItem == 1) {
                     let itemUse = readline.keyIn(
                         `\n[1] Healing Potion(Gain 25 Health) \n[2] Berserker Armor(Raise Attack Up, but lose Health) \n\n`, {
-                            limit: `$<1-2>`
+                            limit: `$<1-2>`,
                         }
                     );
                     if (itemUse == 1) {
@@ -593,7 +655,9 @@ function dracula() {
         }
         if (draculaDemon.health <= 0) {
             draculaDemon.isAlive = false;
-            console.log(`${draculaDemon.name} Has been checked off the list of demons you are hunting.`);
+            console.log(
+                `${draculaDemon.name} Has been checked off the list of demons you are hunting.`
+            );
             console.log("\nUghhh! NO!! How could you defeat me..");
             console.log(player);
             console.log(draculaDemon);
