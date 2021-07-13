@@ -496,7 +496,7 @@ function beelzebub() {
                 `Beelzebub dealt ${beelzebubDemon.attackPower} damage to ${player.name}!`
             );
             console.log(`\nYour Health is now ${player.health}`);
-            console.log(`Beelzebubs Health is now ${beelzebubDemon.health}`);
+            console.log(`Beelzebub's Health is now ${beelzebubDemon.health}`);
         } else if (options == 2) {
             block();
             console.log("\nYou Blocked the attack, but took chip Damage");
